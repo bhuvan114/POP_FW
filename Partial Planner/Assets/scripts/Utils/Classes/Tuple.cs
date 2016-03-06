@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace POPL.Planner
 {
@@ -12,7 +13,7 @@ namespace POPL.Planner
 			First = first;
 			Second = second;
 		}
-		
+
 		public bool Equals (Tuple<T1, T2> obj)
 		{
 			return (First.Equals(obj.First) && Second.Equals(obj.Second));

@@ -14,6 +14,13 @@ namespace POPL.Planner
 			populateAllPossibleActions ();
 		}
 
+		public static void initiatePlanSpace_v2() {
+			
+			populateCharactersInScene ();
+			populateAllActionsMap ();
+			updateActionRelations ();
+		}
+
 		static void populateCharactersInScene () {
 
 			IEnumerable<System.Type> characterTypes = System.Reflection.Assembly.GetExecutingAssembly ().GetTypes ()
@@ -36,8 +43,9 @@ namespace POPL.Planner
 
 		static void addAffordances(List<System.Type> affordances) {
 			foreach (System.Type affordanceType in affordances) {
-				if(!Constants.availableAffordances.Contains(affordanceType))
+				if(!Constants.availableAffordances.Contains(affordanceType)) {
 					Constants.availableAffordances.Add(affordanceType);
+				}
 			}
 		}
 
@@ -64,6 +72,97 @@ namespace POPL.Planner
 						}
 				}
 			}
+		}
+
+		static void populateAllActionsMap() {
+
+			foreach (System.Type affordanceType in Constants.availableAffordances) {
+				
+				ConstructorInfo[] constructors = affordanceType.GetConstructors();
+				foreach(ConstructorInfo consInfo in constructors) {
+					ParameterInfo[] info =  consInfo.GetParameters();
+					System.Type typ1 = info[0].ParameterType;
+					System.Type typ2 = info[1].ParameterType;
+					List<GameObject> objs_1 = Constants.characterTypes[typ1];
+					List<GameObject> objs_2 = Constants.characterTypes[typ2];
+					foreach (GameObject obj1 in objs_1) {
+						foreach (GameObject obj2 in objs_2) {
+							SmartObject smObj1 = (SmartObject) obj1.GetComponent(typ1);
+							SmartObject smObj2 = (SmartObject) obj2.GetComponent(typ2);
+							if(!smObj1.Equals(smObj2)) {
+								Affordance aff = (Affordance) System.Activator.CreateInstance(affordanceType, smObj1, smObj2);
+								if(!Constants.possibleActionsMap.ContainsKey(affordanceType.ToString()))
+									Constants.possibleActionsMap.Add(affordanceType.ToString(), new List<Affordance> ());
+								Constants.possibleActionsMap[affordanceType.ToString()].Add(aff);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		static void updateActionRelations() {
+			/*
+			SmartObject smObj = new SmartObject ();
+			List<Affordance> affds = new List<Affordance>();
+			Dictionary<string, List<string>> affdRelns = new Dictionary<string, List<string>> ();
+			foreach (System.Type affordanceType in Constants.availableAffordances) {
+
+				ConstructorInfo[] constructors = affordanceType.GetConstructors();
+				System.Type typ1;
+				System.Type typ2;
+				foreach(ConstructorInfo consInfo in constructors) {
+					ParameterInfo[] info =  consInfo.GetParameters();
+					typ1 = info[0].ParameterType;
+					typ2 = info[1].ParameterType;
+				}
+
+				affds.Add((Affordance) System.Activator.CreateInstance(affordanceType, smObj, smObj));
+			}
+
+			foreach (Affordance affd in affds) {
+
+				foreach(Condition preCond in affd.getPreconditions()) {
+
+					Tuple<string, bool> cond = new Tuple<string, bool>(preCond.condition, preCond.status);
+					if(!Constants.affordanceRelations.ContainsKey(cond)) {
+						Constants.affordanceRelations.Add(cond, getActionRelations (preCond, affds));
+					}
+				}
+			}
+			*/
+			foreach (System.Type affType in Constants.availableAffordances) {
+
+				Affordance affd = Constants.possibleActionsMap[affType.ToString()].ElementAt(0);
+				foreach(Condition effect in affd.getEffects()) {
+					
+					//Tuple<string, bool> cond = new Tuple<string, bool>(effect.condition, effect.status);
+					if(!Constants.affordanceRelations.ContainsKey(effect.condition)) 
+						Constants.affordanceRelations.Add(effect.condition, new Dictionary<bool, List<string>>());
+					
+					if(!Constants.affordanceRelations[effect.condition].ContainsKey(effect.status))
+						Constants.affordanceRelations[effect.condition].Add(effect.status, new List<string>());
+
+					if(!Constants.affordanceRelations[effect.condition][effect.status].Contains(affType.ToString()))
+						Constants.affordanceRelations[effect.condition][effect.status].Add(affType.ToString());
+				}
+			}
+		}
+
+		static List<string> getActionRelations(Condition preCond) {
+
+			List<string> actions = new List<string> ();
+			foreach(System.Type affType in Constants.availableAffordances){
+
+				Affordance aff = Constants.possibleActionsMap[affType.ToString()].ElementAt(0);
+				foreach(Condition effect in aff.getEffects()){
+					if(effect.isSimilar(preCond)) {
+						if(!actions.Contains(affType.ToString()))
+							actions.Add(affType.ToString());
+					}
+				}
+			}
+			return actions;
 		}
 	}
 }

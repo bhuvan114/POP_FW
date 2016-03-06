@@ -6,13 +6,18 @@ public class main : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		HelperFunctions.initiatePlanSpace ();
+		//HelperFunctions.initiatePlanSpace ();
+		HelperFunctions.initiatePlanSpace_v2 ();
 		foreach (System.Type typesl in Constants.characterTypes.Keys)
 			Debug.Log (typesl.ToString ());
 		foreach (System.Type typesl in Constants.availableAffordances)
 			Debug.Log (typesl.ToString ());
-		foreach (Affordance aff in Constants.allPossibleAffordances)
-			aff.disp ();
+		foreach (string cond in Constants.affordanceRelations.Keys) {
+			foreach(bool status in Constants.affordanceRelations[cond].Keys)
+				Debug.Log(cond + status.ToString());
+		}
+		//foreach (Affordance aff in Constants.allPossibleAffordances)
+		//	aff.disp ();
 
 		Affordance start = new Affordance ();
 		start.setStart ();

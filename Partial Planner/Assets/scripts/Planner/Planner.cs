@@ -82,6 +82,47 @@ namespace POPL.Planner
 			return false;
 		}
 
+		bool checkActionsForPrecondition_v2(Tuple<Condition, Affordance> g, out Affordance satAct) {
+			
+			satAct = null;
+			
+			//g.First.disp ();
+			//Tuple<string, bool> cond = new Tuple<string, bool>(g.First.condition, g.First.status);
+			foreach (string affType in Constants.affordanceRelations[g.First.condition][g.First.status]) {
+
+				foreach(Affordance act in Constants.possibleActionsMap[affType]) {
+					List<Condition> actEffects = act.getEffects();
+					foreach(Condition effect in actEffects) {
+						//Debug.Log ("allPossibleActions - " + effect.condition);
+						//effect.disp();
+						if(effect.Equals(g.First)) {
+							//Debug.LogError ("true that -- " + effect.condition);
+							//effect.disp();
+							satAct = act;
+							//allPossibleActions.Remove(act);
+							return true;
+						}
+					}
+				}
+			}
+			/*
+			foreach(Affordance act in allPossibleActions) {
+				List<Condition> actEffects = act.getEffects();
+				foreach(Condition effect in actEffects) {
+					//Debug.Log ("allPossibleActions - " + effect.condition);
+					//effect.disp();
+					if(effect.Equals(g.First)) {
+						//Debug.LogError ("true that -- " + effect.condition);
+						//effect.disp();
+						satAct = act;
+						allPossibleActions.Remove(act);
+						return true;
+					}
+				}
+			}*/
+			return false;
+		}
+
 		void resolveConflicts(CausalLink cl, Affordance act) {
 			
 			foreach (Condition effect in act.getEffects()) {
@@ -108,8 +149,8 @@ namespace POPL.Planner
 				Affordance act;
 				if(!preConditionAlreadySatisfied(subG, out act)) {
 					
-					if (checkActionsForPrecondition(subG, out act)) {
-						
+					//if (checkActionsForPrecondition(subG, out act)) {
+					if(checkActionsForPrecondition_v2(subG, out act)) {
 						actions.Add(act);
 						addToOrderingConstraints(start, act);
 						foreach(CausalLink cl in causalLinks) {
