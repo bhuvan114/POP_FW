@@ -49,9 +49,12 @@
      <Compile Include="Assets\scripts\Affordances\Affordance.cs" />
      <Compile Include="Assets\scripts\Affordances\Greet.cs" />
      <Compile Include="Assets\scripts\Affordances\Meet.cs" />
+     <Compile Include="Assets\scripts\Planner\Planner.cs" />
      <Compile Include="Assets\scripts\SmartObjects\SmartCharacter.cs" />
      <Compile Include="Assets\scripts\SmartObjects\SmartObject.cs" />
+     <Compile Include="Assets\scripts\Utils\Classes\CausalLink.cs" />
      <Compile Include="Assets\scripts\Utils\Classes\Condition.cs" />
+     <Compile Include="Assets\scripts\Utils\Classes\Tuple.cs" />
      <Compile Include="Assets\scripts\Utils\Constants.cs" />
      <Compile Include="Assets\scripts\Utils\HelperFunctions.cs" />
  <Reference Include="UnityEngine.UI">
