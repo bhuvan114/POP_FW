@@ -7,6 +7,8 @@ public class SmartCharacter : SmartObject {
 
 	public Greet greet;
 	public Meet meet;
+	public Apologize apologize;
+	public Argue argue;
 
 	// Use this for initialization
 	void Start () {

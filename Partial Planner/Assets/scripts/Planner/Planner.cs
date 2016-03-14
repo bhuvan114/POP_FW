@@ -143,7 +143,7 @@ namespace POPL.Planner
 		public /*bool*/ void computePlan(Affordance start, Affordance goal) {
 
 			instantiatePlan (start, goal);
-			Debug.Log (agenda.Count);
+			//Debug.Log (agenda.Count);
 			do {
 				Tuple<Condition, Affordance> subG = agenda.Pop();
 				Affordance act;
