@@ -18,6 +18,14 @@ namespace POPL.Planner
 			status = conditionStatus;
 		}
 
+		public Condition(string actorOneName, string conditionName, bool conditionStatus) {
+			
+			condition = conditionName;
+			actor1 = actorOneName;
+			actor2 = "";
+			status = conditionStatus;
+		}
+
 		public bool isSimilar(Condition c) {
 
 			return ((condition == c.condition) && (status == c.status));

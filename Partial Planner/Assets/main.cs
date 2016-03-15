@@ -11,10 +11,15 @@ public class main : MonoBehaviour {
 		start.setStart ();
 		Affordance goal = new Affordance ();
 		goal.setGoal ();
-		start.addEffects (new Condition("Person1", "Person2", "InScene", true));
-		start.addEffects (new Condition("Person2", "Person1", "InScene", true));
+
+		//START STATE
+		start.addEffects (new Condition("Person1", "InScene", true));
+		start.addEffects(new Condition("Person1", "HandsFree", true));
+		start.addEffects(new Condition("Door", "IsOpen", false));
+		start.addEffects(new Condition("Store", "HasGun", true));
+		start.addEffects(new Condition("Person1", "HasMoney", true));
 		//goal.addPrecondition (new Condition("Person1", "Person2", "Knows", true));
-		goal.addPrecondition (new Condition("Person1", "Person2", "IsHappy", true));
+		goal.addPrecondition (new Condition("Person1", "Gun", "IsDrawn", true));
 		
 		Planner planner = new Planner ();
 		

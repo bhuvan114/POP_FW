@@ -132,7 +132,7 @@ namespace POPL.Planner
 			}
 			*/
 			foreach (System.Type affType in Constants.availableAffordances) {
-
+				Debug.Log(affType.ToString());
 				Affordance affd = Constants.possibleActionsMap[affType.ToString()].ElementAt(0);
 				foreach(Condition effect in affd.getEffects()) {
 					

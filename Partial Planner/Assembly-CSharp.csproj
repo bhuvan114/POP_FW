@@ -49,27 +49,29 @@
      <Compile Include="Assets\scripts\Affordances\Affordance.cs" />
      <Compile Include="Assets\scripts\Affordances\Apologize.cs" />
      <Compile Include="Assets\scripts\Affordances\Argue.cs" />
+     <Compile Include="Assets\scripts\Affordances\BuyWeapon.cs" />
+     <Compile Include="Assets\scripts\Affordances\CloseDoor.cs" />
+     <Compile Include="Assets\scripts\Affordances\DrawGun.cs" />
+     <Compile Include="Assets\scripts\Affordances\EnterStore.cs" />
      <Compile Include="Assets\scripts\Affordances\Greet.cs" />
      <Compile Include="Assets\scripts\Affordances\Meet.cs" />
+     <Compile Include="Assets\scripts\Affordances\OpenDoor.cs" />
      <Compile Include="Assets\scripts\Planner\Planner.cs" />
      <Compile Include="Assets\scripts\SmartObjects\SmartCharacter.cs" />
+     <Compile Include="Assets\scripts\SmartObjects\SmartDoor.cs" />
+     <Compile Include="Assets\scripts\SmartObjects\SmartGun.cs" />
      <Compile Include="Assets\scripts\SmartObjects\SmartObject.cs" />
+     <Compile Include="Assets\scripts\SmartObjects\SmartStore.cs" />
      <Compile Include="Assets\scripts\Utils\Classes\CausalLink.cs" />
      <Compile Include="Assets\scripts\Utils\Classes\Condition.cs" />
      <Compile Include="Assets\scripts\Utils\Classes\Tuple.cs" />
      <Compile Include="Assets\scripts\Utils\Constants.cs" />
      <Compile Include="Assets\scripts\Utils\HelperFunctions.cs" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Analytics">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>

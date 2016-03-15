@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,14 +7,18 @@ namespace POPL.Planner
 {
 	public class Planner {
 
+		//Affordance start, goal;
 		Dictionary<Affordance, List<Affordance>> orderingConsts = new Dictionary<Affordance, List<Affordance>>();
 		List<Affordance> actions = new List<Affordance>();
 		List<CausalLink> causalLinks = new List<CausalLink>();
 		Stack<Tuple<Condition, Affordance>> agenda = new Stack<Tuple<Condition, Affordance>>();
 		List<Affordance> allPossibleActions = new List<Affordance>();
+		Dictionary<string, List<Affordance>> possibleActions = Constants.possibleActionsMap;
 
 		void instantiatePlan(Affordance start, Affordance goal) {
 
+			//start = strt;
+			//goal = gl;
 			addToOrderingConstraints (start, goal);
 			actions.Add (start);
 			actions.Add (goal);
@@ -90,7 +94,7 @@ namespace POPL.Planner
 			//Tuple<string, bool> cond = new Tuple<string, bool>(g.First.condition, g.First.status);
 			foreach (string affType in Constants.affordanceRelations[g.First.condition][g.First.status]) {
 
-				foreach(Affordance act in Constants.possibleActionsMap[affType]) {
+				foreach(Affordance act in possibleActions[affType]) {
 					List<Condition> actEffects = act.getEffects();
 					foreach(Condition effect in actEffects) {
 						//Debug.Log ("allPossibleActions - " + effect.condition);
