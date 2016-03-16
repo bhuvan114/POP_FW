@@ -1,22 +1,22 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\scripts\SmartObjects\SmartCharacter.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\DoorSystem\Scripts\PlayerMovement.cs">
     <Files>
-      <File FileName="Assets\scripts\Planner\Planner.cs" Line="75" Column="63" />
-      <File FileName="Assets\scripts\Utils\Constants.cs" Line="16" Column="2" />
-      <File FileName="Assets\scripts\Utils\HelperFunctions.cs" Line="168" Column="2" />
+      <File FileName="Assets\DoorSystem\Scripts\PlayerMovement.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\Planner\Planner.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\Utils\Constants.cs" Line="1" Column="1" />
+      <File FileName="Assets\scripts\Utils\HelperFunctions.cs" Line="1" Column="1" />
       <File FileName="Assets\scripts\Affordances\Apologize.cs" Line="1" Column="1" />
       <File FileName="Assets\scripts\SmartObjects\SmartGun.cs" Line="1" Column="1" />
       <File FileName="Assets\scripts\SmartObjects\SmartCharacter.cs" Line="24" Column="1" />
       <File FileName="Assets\scripts\Affordances\EnterStore.cs" Line="1" Column="1" />
       <File FileName="Assets\scripts\SmartObjects\SmartDoor.cs" Line="1" Column="1" />
-      <File FileName="Assets\scripts\SmartObjects\SmartStore.cs" Line="9" Column="31" />
+      <File FileName="Assets\scripts\SmartObjects\SmartStore.cs" Line="1" Column="1" />
       <File FileName="Assets\scripts\Affordances\BuyWeapon.cs" Line="1" Column="1" />
       <File FileName="Assets\scripts\Affordances\CloseDoor.cs" Line="1" Column="1" />
       <File FileName="Assets\scripts\Affordances\OpenDoor.cs" Line="1" Column="1" />
       <File FileName="Assets\scripts\Affordances\DrawGun.cs" Line="1" Column="1" />
       <File FileName="Assets\scripts\Affordances\Affordance.cs" Line="1" Column="1" />
-      <File FileName="Assets\main.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

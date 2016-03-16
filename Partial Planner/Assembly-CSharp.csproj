@@ -45,7 +45,13 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\main.cs" />
+     <Compile Include="Assets\DoorSystem\Debugger\Yurowm\DebugPanel\DebugPanel.cs" />
+     <Compile Include="Assets\DoorSystem\Debugger\Yurowm\DebugPanel\DebugPanelField.cs" />
+     <Compile Include="Assets\DoorSystem\Debugger\Yurowm\DebugPanel\DebugPanelViewport.cs" />
+     <Compile Include="Assets\DoorSystem\Scripts\Detection.cs" />
+     <Compile Include="Assets\DoorSystem\Scripts\Door.cs" />
+     <Compile Include="Assets\DoorSystem\Scripts\MouseLook.cs" />
+     <Compile Include="Assets\DoorSystem\Scripts\PlayerMovement.cs" />
      <Compile Include="Assets\scripts\Affordances\Affordance.cs" />
      <Compile Include="Assets\scripts\Affordances\Apologize.cs" />
      <Compile Include="Assets\scripts\Affordances\Argue.cs" />
@@ -67,11 +73,20 @@
      <Compile Include="Assets\scripts\Utils\Classes\Tuple.cs" />
      <Compile Include="Assets\scripts\Utils\Constants.cs" />
      <Compile Include="Assets\scripts\Utils\HelperFunctions.cs" />
+     <Compile Include="Assets\scripts\main.cs" />
+     <None Include="Assets\Fortress\Shader\Diffuse.shader" />
+     <None Include="Assets\Fortress\Shader\TwoSided.shader" />
+ <Reference Include="UnityEngine.Advertisements">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEngine.Analytics">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
  <Reference Include="Mono.Cecil">
  <HintPath>C:/Program Files/Unity/Editor/Data/Managed/Mono.Cecil.dll</HintPath>
