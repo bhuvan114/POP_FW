@@ -120,6 +120,41 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\BipedIK\Editor\BipedIKInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\BipedIK\Editor\BipedIKSolversInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\Constraints\Editor\ConstraintsInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Components\Editor\AimIKInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Components\Editor\CCDIKInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Components\Editor\FABRIKInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Components\Editor\FABRIKRootInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Components\Editor\FullBodyBipedIKInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Components\Editor\IKInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Components\Editor\LimbIKInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Components\Editor\LookAtIKInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Components\Editor\TrigonometricIKInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Solvers\Editor\IKEffectorInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Solvers\Editor\IKSolverAimInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Solvers\Editor\IKSolverFABRIKRootInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Solvers\Editor\IKSolverFullBodyBipedInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Solvers\Editor\IKSolverFullBodyInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Solvers\Editor\IKSolverHeuristicInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Solvers\Editor\IKSolverInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Solvers\Editor\IKSolverLimbInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Solvers\Editor\IKSolverLookAtInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\IK Solvers\Editor\IKSolverTrigonometricInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\InteractionSystem\Editor\InteractionTargetInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\Rotation Limits\Editor\RotationLimitAngleInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\Rotation Limits\Editor\RotationLimitHingeInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\Rotation Limits\Editor\RotationLimitInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\Rotation Limits\Editor\RotationLimitPolygonalInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\Rotation Limits\Editor\RotationLimitSplineInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\_DEMOS\Limb IK\Scripts\Limb IK Bend Goal\Editor\BendGoalInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\FinalIK\_DEMOS\Shared\Scripts\Aim Poser\Editor\AimPoserInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\Scripts\Editor\BipedReferencesInspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\Scripts\Editor\Inspector.cs" />
+    <Compile Include="Assets\Core\Libraries\RootMotion\Scripts\Editor\SerializedContent.cs" />
+    <Compile Include="Assets\Core\Scripts\IK\Editor\CrossfadeFBBIKInspector.cs" />
+    <Compile Include="Assets\Core\Scripts\IK\Editor\CrossfadeLookAtIKInspector.cs" />
     <Compile Include="Assets\DoorSystem\Debugger\Yurowm\Editor\DebugPanelWindow.cs" />
   </ItemGroup>
   <ItemGroup>
