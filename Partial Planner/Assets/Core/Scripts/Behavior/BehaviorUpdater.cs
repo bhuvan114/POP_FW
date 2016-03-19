@@ -26,8 +26,10 @@ public class BehaviorUpdater : MonoBehaviour
     {
         if (Time.time > this.nextUpdate)
         {
+			if(BehaviorManager.Instance != null) {
             BehaviorManager.Instance.Update(this.updateTime);
             this.nextUpdate += this.updateTime;
+			}
         }
     }
 }

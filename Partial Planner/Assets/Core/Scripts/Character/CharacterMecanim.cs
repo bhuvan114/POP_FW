@@ -286,6 +286,7 @@ public class CharacterMecanim : MonoBehaviour
 	public virtual RunStatus HandAnimation(
         Val<string> gestureName, Val<bool> isActive)
     {
+		Debug.LogError ("HandAnimation");
         this.Body.HandAnimation(gestureName.Value, isActive.Value);
 		return RunStatus.Success;
 	}

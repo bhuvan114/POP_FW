@@ -1,15 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TreeSharpPlus;
 
 using POPL.Planner;
 
 public class OpenDoor : Affordance {
-	
-	
+
+	DoorScript doorScript;
+	Transform openPos;
+
 	public OpenDoor(SmartDoor afdnt, SmartCharacter afdee) {
 		
 		affodant = afdnt;
 		affordee = afdee;
+		openPos = afdnt.openPoint;
 		initialize ();
 	}
 	
@@ -25,6 +29,15 @@ public class OpenDoor : Affordance {
 	}
 	
 	//Behaviour Tree here
-	public void execute() {
+	public Node execute() {
+		//Debug.LogError ("Execute");
+
+		return new Sequence (HelperFunctions.ST_ApproachAndWait(affordee.gameObject, openPos), affordee.gameObject.GetComponent<BehaviorMecanim> ().Node_HandAnimation ("GRAB", true), new LeafWait (2000), this.OpenAnimation());
+	}
+
+	Node OpenAnimation() {
+		Debug.LogError ("OpenAnimation");
+		return new LeafInvoke(
+			() => this.affodant.gameObject.GetComponent<DoorScript> ().OpenDoor());
 	}
 }

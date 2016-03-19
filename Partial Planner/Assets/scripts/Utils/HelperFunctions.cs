@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
+using TreeSharpPlus;
 
 namespace POPL.Planner
 {
@@ -163,6 +164,12 @@ namespace POPL.Planner
 				}
 			}
 			return actions;
+		}
+
+		public static Node ST_ApproachAndWait(GameObject participant, Transform target)
+		{
+			Val<Vector3> position = Val.V (() => target.position);
+			return new Sequence( participant.GetComponent<BehaviorMecanim>().Node_GoTo(position), new LeafWait(500));
 		}
 	}
 }

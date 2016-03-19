@@ -212,6 +212,7 @@ public class BodyMecanim : MonoBehaviour
     /// </summary>
     public void HandAnimation(string gestureName, bool isActive)
     {
+		Debug.LogError ("Hand animation - " + gestureName);
 
         if (isActive == true)
             this.ResetAnimation();
@@ -349,6 +350,9 @@ public class BodyMecanim : MonoBehaviour
             case "WRITING":
                 this.animator.SetBool("H_Writing", isActive);
                 break;
+			case "GRAB":
+				this.animator.SetTrigger("H_Grab");
+				break;
         }
     }
 

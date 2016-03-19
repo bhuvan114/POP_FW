@@ -11,6 +11,8 @@ public class Player3PController : MonoBehaviour {
 	public float aimTurnSmoothing = 15.0f;
 	public float speedDampTime = 0.1f;
 
+	public bool isPlayerBusy = false;
+
 	private Animator anim;
 	private Transform cameraTransform;
 	private int speedFloat;
@@ -52,24 +54,31 @@ public class Player3PController : MonoBehaviour {
 		float h = Input.GetAxis ("Horizontal");			
 		float v = Input.GetAxis ("Vertical");
 
-
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			anim.SetTrigger("B_Jump");
-		}
-
-
-		//if (!anim.GetBool("B_Jump")) {
-			isMoving = Mathf.Abs(v) > 0.1;
-
-			if (isMoving) {
-
-				MovementManagement (h, v);
-			} else {
-
-				UpdateDirection();
+		if (!isPlayerBusy) {
+			if (Input.GetKeyDown (KeyCode.Space)) {
+				anim.SetTrigger ("B_Jump");
 			}
 
-		//}
+			if (Input.GetKeyDown (KeyCode.F)) {
+				//anim.SetLayerWeight(1,1);
+				//anim.SetBool("HandAnimation", true);
+				//anim.SetBool("H_ChestPumpSalute", true);
+				//anim.SetTrigger("H_Grab");
+			}
+
+			if (!anim.GetBool ("B_Jump")) {
+				isMoving = Mathf.Abs (v) > 0.1;
+
+				if (isMoving) {
+
+					MovementManagement (h, v);
+				} else {
+
+					UpdateDirection ();
+				}
+
+			}
+		}
 	}
 
 	void FixedUpdate ()

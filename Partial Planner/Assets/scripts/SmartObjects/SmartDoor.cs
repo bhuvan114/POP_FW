@@ -8,6 +8,8 @@ public class SmartDoor : SmartObject {
 	public OpenDoor open;
 	public CloseDoor close;
 
+	public Transform openPoint;
+	public Transform closePoint;
 	// Use this for initialization
 	void Start () {
 	
