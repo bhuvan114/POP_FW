@@ -236,6 +236,7 @@
     <Compile Include="Assets\DoorSystem\Scripts\Door.cs" />
     <Compile Include="Assets\DoorSystem\Scripts\MouseLook.cs" />
     <Compile Include="Assets\DoorSystem\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\GunTrigger.cs" />
     <Compile Include="Assets\MyBehaviorTree.cs" />
     <Compile Include="Assets\scripts\Affordances\Affordance.cs" />
     <Compile Include="Assets\scripts\Affordances\Apologize.cs" />

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TreeSharpPlus;
 
 using POPL.Planner;
 
@@ -24,8 +25,19 @@ public class DrawGun : Affordance {
 		effects.Add(new Condition(affordantName, affordeeName, "IsDrawn", true));
 		
 	}
-	
-	//Behaviour Tree here
-	public void execute() {
-	}
+
+    //Behaviour Tree here
+    public Node execute()
+    {
+        Debug.Log("DrawGun execute");
+        return new Sequence(this.DrawGunAnimation());
+    }
+
+    Node DrawGunAnimation()
+    {
+        Debug.Log("DrawGunAnimation");
+        return new Sequence(
+            affodant.GetComponent<BehaviorMecanim>().Node_HandAnimation("PISTOLAIM", true), new LeafWait(500),
+            new LeafInvoke(() => affordee.gameObject.GetComponent<GunController>().SetIsHolding(true)));
+    }
 }
