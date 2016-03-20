@@ -66,7 +66,7 @@ public class Player3PController : MonoBehaviour {
 				//anim.SetTrigger("H_Grab");
 			}
 
-			if (!anim.GetBool ("B_Jump")) {
+			//if (!anim.GetBool ("B_Jump")) {
 				isMoving = Mathf.Abs (v) > 0.1;
 
 				if (isMoving) {
@@ -77,7 +77,7 @@ public class Player3PController : MonoBehaviour {
 					UpdateDirection ();
 				}
 
-			}
+			//}
 		}
 	}
 

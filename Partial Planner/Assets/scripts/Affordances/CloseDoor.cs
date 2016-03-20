@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TreeSharpPlus;
 
 using POPL.Planner;
 
@@ -25,6 +26,15 @@ public class CloseDoor : Affordance {
 	}
 	
 	//Behaviour Tree here
-	public void execute() {
+	public Node execute() {
+
+		Debug.Log ("Close execute");
+		return new Sequence (this.CloseAnimation());
+	}
+
+	Node CloseAnimation() {
+		Debug.Log ("CloseAnimation");
+		return new LeafInvoke(
+			() => this.affodant.gameObject.GetComponent<DoorScript> ().OpenDoor());
 	}
 }

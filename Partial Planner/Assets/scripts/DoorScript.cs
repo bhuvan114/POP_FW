@@ -28,7 +28,7 @@ public class DoorScript : MonoBehaviour {
 	private int n = 0; //For 'TimesMoveable' loop.
 	[HideInInspector] public bool Running = false;
 	[HideInInspector] public bool isPlayerDetected = false;
-	[HideInInspector] public int State;
+	[HideInInspector] public int State = 0;
 
 	// Define a start and an end rotation.
 	private Quaternion EndRot, StartRot;
@@ -153,22 +153,22 @@ public class DoorScript : MonoBehaviour {
 
 	public void OpenDoor() 
 	{
-		Debug.LogError ("Open Door called : " + State);
-		if(this.Running == false)
+		Debug.Log ("Open Door called : " + State);
+		//if(this.Running == false)
 			StartCoroutine(Open ());
 	}
 
 	// OPEN FUNCTION
-	private IEnumerator Open ()
+	public IEnumerator Open ()
 	{
 		//Debug.LogError ("Open called");
 		if (n < TimesMoveable || TimesMoveable == 0)
 		{
-			if (hinge.transform.rotation == (State == 0 ? EndRot : StartRot))
-			{
+			//if (hinge.transform.rotation == (State == 0 ? EndRot : StartRot))
+			//{
 				// Change state from 1 to 0 and back (= change from Endrot to StartRot).
-				State ^= 1;
-			}
+			//	State ^= 1;
+			//}
 			
 			// Set 'finalRotation' to 'Endrot' when moving and to 'StartRot' when moving back.
 			Quaternion finalRotation = ((State == 0) ? EndRot : StartRot);
@@ -201,7 +201,7 @@ public class DoorScript : MonoBehaviour {
 		//GameObject Player = GameObject.Find("Player");
 		//Detection detection = Player.GetComponent<Detection>();
 		
-		if (isPlayerDetected)
+		if (isPlayerDetected && Running == false)
 		{
 			GUI.color = Color.white;
 			GUI.Box(new Rect(20, 20, 200, 25), "Press 'E' to open/close");

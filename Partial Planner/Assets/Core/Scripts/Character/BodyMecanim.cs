@@ -425,6 +425,9 @@ public class BodyMecanim : MonoBehaviour
 
         this.animator.SetBool("FaceAnimation", false);
         this.animator.SetBool("HandAnimation", false);
+
+		this.resettingFaceLayerWeight = true;
+		this.resettingHandLayerWeight = true;
     }
     #endregion
 

@@ -171,5 +171,17 @@ namespace POPL.Planner
 			Val<Vector3> position = Val.V (() => target.position);
 			return new Sequence( participant.GetComponent<BehaviorMecanim>().Node_GoTo(position), new LeafWait(500));
 		}
+
+		public static Node ST_Turn(GameObject participant, Transform target)
+		{
+			/*Vector3 ang = target.position;
+			//ang.x = ang.x - 1.1f;
+			Val<Vector3> ornt = Val.V (() => (target.position));
+			//ornt.Value = -ornt.Value;
+			return new Sequence( participant.GetComponent<BehaviorMecanim>().Node_OrientTowards(ornt));*/
+
+			Val<Quaternion> ornt = Val.V (() => (target.rotation));
+			return new Sequence (participant.GetComponent<BehaviorMecanim>().Node_Orient(ornt));
+		}
 	}
 }

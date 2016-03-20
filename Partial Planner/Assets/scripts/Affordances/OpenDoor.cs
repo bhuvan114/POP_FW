@@ -32,11 +32,10 @@ public class OpenDoor : Affordance {
 	public Node execute() {
 		//Debug.LogError ("Execute");
 
-		return new Sequence (HelperFunctions.ST_ApproachAndWait(affordee.gameObject, openPos), affordee.gameObject.GetComponent<BehaviorMecanim> ().Node_HandAnimation ("GRAB", true), new LeafWait (2000), this.OpenAnimation());
+		return new Sequence (HelperFunctions.ST_ApproachAndWait(affordee.gameObject, openPos), HelperFunctions.ST_Turn(affordee.gameObject, openPos), affordee.gameObject.GetComponent<BehaviorMecanim> ().Node_HandAnimation ("GRAB", true), new LeafWait (2000), this.OpenAnimation());
 	}
 
 	Node OpenAnimation() {
-		Debug.LogError ("OpenAnimation");
 		return new LeafInvoke(
 			() => this.affodant.gameObject.GetComponent<DoorScript> ().OpenDoor());
 	}

@@ -13,6 +13,7 @@ public class DoorTrigger : MonoBehaviour {
 	private BehaviorAgent behaviorAgent;
 	private Player3PController playerController;
 	private Node root = null;
+	private bool doorState = false;
 	// Use this for initialization
 	void Start () {
 
@@ -24,12 +25,17 @@ public class DoorTrigger : MonoBehaviour {
 		if (door.isPlayerDetected && Input.GetKeyDown (KeyCode.E)) {
 			//Debug.LogError("Key Recorded");
 			if(door.Running == false) {
-				//if (door.State == 0)
+				if (door.State == 0) {
+					Debug.Log("Open");
 					root = openDoor.execute();
 					behaviorAgent = new BehaviorAgent (root);
-				//else
-				//	behaviorAgent = new BehaviorAgent (closeDoor.execute());
 
+				} else {
+					Debug.Log("Close");
+					root = closeDoor.execute();
+					behaviorAgent = new BehaviorAgent (root);
+				}
+			
 				BehaviorManager.Instance.Register (behaviorAgent);
 				behaviorAgent.StartBehavior ();
 				playerController.isPlayerBusy = true;
@@ -41,7 +47,10 @@ public class DoorTrigger : MonoBehaviour {
 		if (root != null) {
 			if(!root.IsRunning) {
 				playerController.isPlayerBusy = false;
+				playerController.gameObject.GetComponent<CharacterMecanim>().ResetAnimation();
 				root = null;
+				//doorState = true;
+				door.State ^= 1;
 			}
 		}
 	}
@@ -52,6 +61,7 @@ public class DoorTrigger : MonoBehaviour {
 			door.isPlayerDetected = true;
 			playerController = other.GetComponent<Player3PController>();
 			openDoor = new OpenDoor(door.GetComponent<SmartDoor>(), other.GetComponent<SmartCharacter>());
+			closeDoor = new CloseDoor(door.GetComponent<SmartDoor>(), other.GetComponent<SmartCharacter>());
 		}
 	}
 
