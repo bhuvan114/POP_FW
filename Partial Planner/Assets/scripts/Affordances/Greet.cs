@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using TreeSharpPlus;
 
 using POPL.Planner;
 
@@ -25,6 +26,16 @@ public class Greet : Affordance {
 	}
 
 	//Behaviour Tree here
-	public void execute() {
-	}
+	public Node execute() {
+        Debug.Log("Greet execute");
+        return new Sequence(this.GreetAnimation());
+    }
+
+    Node GreetAnimation()
+    {
+        Debug.Log("GreetAnimation");
+        return new SequenceParallel(new LeafInvoke(
+            () => this.affodant.gameObject.GetComponent<BehaviorMecanim>().Node_HandAnimation("Wave", true)), new LeafInvoke(
+            () => this.affordee.gameObject.GetComponent<BehaviorMecanim>().Node_HandAnimation("Wave", true)));
+    }
 }

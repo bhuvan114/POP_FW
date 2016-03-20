@@ -58,12 +58,6 @@
     <Reference Include="UnityEngine.Networking">
       <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Networking">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Networking.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor">
       <HintPath>Library\UnityAssemblies\UnityEditor.dll</HintPath>
     </Reference>
@@ -253,12 +247,17 @@
     <Compile Include="Assets\scripts\Affordances\Greet.cs" />
     <Compile Include="Assets\scripts\Affordances\Meet.cs" />
     <Compile Include="Assets\scripts\Affordances\OpenDoor.cs" />
+    <Compile Include="Assets\scripts\DoorScript.cs" />
+    <Compile Include="Assets\scripts\DoorTrigger.cs" />
+    <Compile Include="Assets\scripts\GameController.cs" />
     <Compile Include="Assets\scripts\Planner\Planner.cs" />
+    <Compile Include="Assets\scripts\Player3PController.cs" />
     <Compile Include="Assets\scripts\SmartObjects\SmartCharacter.cs" />
     <Compile Include="Assets\scripts\SmartObjects\SmartDoor.cs" />
     <Compile Include="Assets\scripts\SmartObjects\SmartGun.cs" />
     <Compile Include="Assets\scripts\SmartObjects\SmartObject.cs" />
     <Compile Include="Assets\scripts\SmartObjects\SmartStore.cs" />
+    <Compile Include="Assets\scripts\ThirdPersonOrbitCam.cs" />
     <Compile Include="Assets\scripts\Utils\Classes\CausalLink.cs" />
     <Compile Include="Assets\scripts\Utils\Classes\Condition.cs" />
     <Compile Include="Assets\scripts\Utils\Classes\Tuple.cs" />
@@ -269,6 +268,7 @@
   <ItemGroup>
     <None Include="Assets\Fortress\Shader\Diffuse.shader" />
     <None Include="Assets\Fortress\Shader\TwoSided.shader" />
+    <None Include="Assets\Raw Mocap Data\Animations\_CompleteAnimationList.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
 </Project>
