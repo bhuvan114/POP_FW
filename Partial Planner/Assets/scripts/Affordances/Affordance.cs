@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using TreeSharpPlus;
 
 namespace POPL.Planner
 {
@@ -13,6 +14,7 @@ namespace POPL.Planner
 		protected List<Condition> effects = new List<Condition>();
 		protected bool start = false; 
 		protected bool goal = false;
+		protected Node treeRoot = null;
 
 		public Affordance() {
 			affodant = new SmartObject ("affodant");
@@ -79,5 +81,22 @@ namespace POPL.Planner
 			Debug.Log (affordantName + name + affordeeName);
 		}
 
+
+
+		public Node GetSubTree() {
+
+			return this.treeRoot;
+		}
+
+		public Node UpdateState() {
+			return new LeafInvoke(
+				() => this.UpdateNarrativeState());
+		}
+
+		public void UpdateNarrativeState() {
+			//Debug.Log ("called for - " + name);
+			foreach (Condition effect in effects)
+				NarrativeState.AddCondition (effect);
+		}
 	}
 }

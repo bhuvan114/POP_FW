@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
+using TreeSharpPlus;
 
 namespace POPL.Planner
 {
@@ -83,6 +84,7 @@ namespace POPL.Planner
 					ParameterInfo[] info =  consInfo.GetParameters();
 					System.Type typ1 = info[0].ParameterType;
 					System.Type typ2 = info[1].ParameterType;
+					Debug.Log(typ1.ToString() + " - " + typ2.ToString());
 					List<GameObject> objs_1 = Constants.characterTypes[typ1];
 					List<GameObject> objs_2 = Constants.characterTypes[typ2];
 					foreach (GameObject obj1 in objs_1) {
@@ -132,7 +134,7 @@ namespace POPL.Planner
 			}
 			*/
 			foreach (System.Type affType in Constants.availableAffordances) {
-
+				Debug.Log(affType.ToString());
 				Affordance affd = Constants.possibleActionsMap[affType.ToString()].ElementAt(0);
 				foreach(Condition effect in affd.getEffects()) {
 					
@@ -163,6 +165,37 @@ namespace POPL.Planner
 				}
 			}
 			return actions;
+		}
+
+		public static Node ST_ApproachAndWait(GameObject participant, Transform target)
+		{
+			Val<Vector3> position = Val.V (() => target.position);
+			return new Sequence( participant.GetComponent<BehaviorMecanim>().Node_GoTo(position), new LeafWait(500));
+		}
+
+		public static Node ST_Turn(GameObject participant, Transform target)
+		{
+			/*Vector3 ang = target.position;
+			//ang.x = ang.x - 1.1f;
+			Val<Vector3> ornt = Val.V (() => (target.position));
+			//ornt.Value = -ornt.Value;
+			return new Sequence( participant.GetComponent<BehaviorMecanim>().Node_OrientTowards(ornt));*/
+
+			Val<Quaternion> ornt = Val.V (() => (target.rotation));
+			return new Sequence (participant.GetComponent<BehaviorMecanim>().Node_Orient(ornt));
+		}
+
+		public static GameObject GetChildGameObjectByName(GameObject parent, string name) {
+
+			Transform ts = parent.gameObject.GetComponentInChildren<Transform> ();
+			foreach (Transform t in ts) {
+
+				if(t.gameObject.name == name)
+					return t.gameObject;
+			}
+
+			return null;
+
 		}
 	}
 }
