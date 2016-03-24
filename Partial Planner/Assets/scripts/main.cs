@@ -85,7 +85,8 @@ public class main : MonoBehaviour {
 			NarrativeState.SetAffordances(planner.getActions());
 			NarrativeState.SetCausalLinks(planner.getCausalLinks());
 			NarrativeState.SetOrderingConstraints(planner.getConstarints());
-			NarrativeState.GenerateNarrative();
+			//NarrativeState.GenerateNarrative();
+			NarrativeState.GenerateNarrative_V2();
 			Time.timeScale = 1f;
 		}
 		swatch.Stop ();
