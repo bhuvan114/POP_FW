@@ -10,7 +10,7 @@ public class GunController : MonoBehaviour {
 	public GameObject holder;
 	// Use this for initialization
 	void Start () {
-		isHolding = true;
+		isHolding = false;
 		rb = GetComponent<Rigidbody> ();
 	}
 	

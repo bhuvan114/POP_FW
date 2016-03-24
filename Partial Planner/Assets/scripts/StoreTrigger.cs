@@ -8,6 +8,7 @@ public class StoreTrigger : MonoBehaviour {
 
 	public GameObject StoreUIPanel;
 	public GameObject store;
+    public GameObject gun;
 
 	private bool isPlayerDetected = false;
 	private bool displayInteractionPannel = false;
@@ -48,11 +49,13 @@ public class StoreTrigger : MonoBehaviour {
 
 		if (root != null) {
 			if (!root.IsRunning) {
+                gun.SetActive(false);
 				playerController.isPlayerBusy = false;
 				playerController.gameObject.GetComponent<CharacterMecanim> ().ResetAnimation ();
 				root = null;
 
 				NarrativeState.recomputePlan = true;
+                playerController.GetComponent<GunTrigger>().enabled = true;
 			}
 		}
 	}
