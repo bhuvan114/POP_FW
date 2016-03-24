@@ -18,7 +18,7 @@ public class GunController : MonoBehaviour {
 	void Update () {
 		if (isHolding) {
 			transform.position = holder.transform.position;
-			transform.rotation = holder.transform.rotation;
+            transform.rotation = holder.transform.rotation;
 		}
 	}
 
@@ -31,4 +31,9 @@ public class GunController : MonoBehaviour {
 
 		rb.useGravity = status;
 	}
+
+    public void SetHolder(GameObject hold)
+    {
+        holder = hold;
+    }
 }

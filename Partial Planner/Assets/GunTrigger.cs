@@ -8,31 +8,33 @@ public class GunTrigger : MonoBehaviour
 {
 
     private BehaviorAgent behaviorAgent;
-    private Player3PController playerController;
     private Node root = null;
     private DrawGun drawGun;
-    private GameObject gun;
+
+    public GameObject gun;
+    public Player3PController playerController;
 
     // Use this for initialization
     void Start()
     {
-        gun.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !gun.activeSelf)
         {
             Debug.Log("Draw");
+            gun.SetActive(true);
+
+            drawGun = new DrawGun(playerController.GetComponent<SmartCharacter>(), gun.GetComponent<SmartGun>());
             root = new Sequence(drawGun.execute(), drawGun.UpdateState());
             behaviorAgent = new BehaviorAgent(root);
             BehaviorManager.Instance.Register(behaviorAgent);
             behaviorAgent.StartBehavior();
             playerController.isPlayerBusy = true;
-            gun.SetActive(true);
-            gun.GetComponent<GunController>().SetIsHolding(true);
+
         }
 
         if (root != null)
@@ -40,10 +42,10 @@ public class GunTrigger : MonoBehaviour
             if (!root.IsRunning)
             {
                 playerController.isPlayerBusy = false;
-                playerController.gameObject.GetComponent<CharacterMecanim>().ResetAnimation();
-                root = null;
+                //playerController.gameObject.GetComponent<CharacterMecanim>().ResetAnimation();
+                //root = null;
 
-                NarrativeState.recomputePlan = true;
+                //NarrativeState.recomputePlan = true;
             }
         }
     }

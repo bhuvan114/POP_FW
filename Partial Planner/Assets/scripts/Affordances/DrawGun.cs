@@ -38,6 +38,7 @@ public class DrawGun : Affordance {
         Debug.Log("DrawGunAnimation");
         return new Sequence(
             affodant.GetComponent<BehaviorMecanim>().Node_HandAnimation("PISTOLAIM", true), new LeafWait(500),
+            new LeafInvoke(() => affordee.gameObject.GetComponent<GunController>().SetHolder(affodant.gameObject.transform.Find("Holder").gameObject)),
             new LeafInvoke(() => affordee.gameObject.GetComponent<GunController>().SetIsHolding(true)));
     }
 }
