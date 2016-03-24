@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using POPL.Planner;
+using TreeSharpPlus;
 
 public class main : MonoBehaviour {
 
 	public GameObject ObjectiveUIPanel;
+	public GameObject objectiveFailure;
 	private bool hasPlan;
 	private BehaviorAgent behaviorAgent;
 
@@ -99,6 +101,7 @@ public class main : MonoBehaviour {
 
 		if (hasPlan && !NarrativeState.root.IsRunning) {
 
+			NarrativeState.root = new Sequence(NarrativeState.root , this.TeriminatePlan());
 			behaviorAgent = new BehaviorAgent (NarrativeState.root);
 			BehaviorManager.Instance.Register (behaviorAgent);
 			behaviorAgent.StartBehavior ();
@@ -115,6 +118,18 @@ public class main : MonoBehaviour {
 			NarrativeState.recomputePlan = false;
 			this.computePlan();
 		}
+	}
+
+	public Node TeriminatePlan () {
+		
+		return new LeafInvoke(
+			() => this.TerimateNarrative());
+	}	
+	
+	public void TerimateNarrative() {
+		
+		objectiveFailure.SetActive (true);
+		Time.timeScale = 0f;
 	}
 
 	void onGUI() {
