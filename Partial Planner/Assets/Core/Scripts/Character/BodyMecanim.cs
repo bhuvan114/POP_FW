@@ -329,6 +329,9 @@ public class BodyMecanim : MonoBehaviour
             case "PISTOLAIM":
                 this.animator.SetBool("H_PistolAim", isActive);
                 break;
+            case "PISTOLFIRE":
+                this.animator.SetBool("H_PistolFire", isActive);
+                break;
             case "READ":
                 this.animator.SetBool("H_Read", isActive);
                 break;

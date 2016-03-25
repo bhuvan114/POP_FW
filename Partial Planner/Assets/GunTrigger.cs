@@ -10,6 +10,7 @@ public class GunTrigger : MonoBehaviour
     private BehaviorAgent behaviorAgent;
     private Node root = null;
     private DrawGun drawGun;
+    private ShootGun shootGun;
 
     public GameObject gun;
     public Player3PController playerController;
@@ -35,6 +36,17 @@ public class GunTrigger : MonoBehaviour
             behaviorAgent.StartBehavior();
             playerController.isPlayerBusy = true;
 
+        }
+        else if (Input.GetMouseButtonDown(0) && gun.activeSelf)
+        {
+            Debug.Log("Shoot");
+
+            shootGun = new ShootGun(playerController.GetComponent<SmartCharacter>(), gun.GetComponent<SmartGun>());
+            root = new Sequence(shootGun.execute(), shootGun.UpdateState());
+            behaviorAgent = new BehaviorAgent(root);
+            BehaviorManager.Instance.Register(behaviorAgent);
+            behaviorAgent.StartBehavior();
+            playerController.isPlayerBusy = true;
         }
 
         if (root != null)
