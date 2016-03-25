@@ -78,7 +78,7 @@ public class main : MonoBehaviour {
 		if (!planner.computePlan (start, goal)) {
 
 			hasPlan = false;
-			Time.timeScale = 0f;
+		//	Time.timeScale = 0f;
 		} else {
 
 			hasPlan = true;
@@ -102,7 +102,7 @@ public class main : MonoBehaviour {
 
 		if (hasPlan && !NarrativeState.root.IsRunning) {
 
-			NarrativeState.root = new Sequence(NarrativeState.root , this.TeriminatePlan());
+			//NarrativeState.root = new Sequence(NarrativeState.root , this.TeriminatePlan());
 			behaviorAgent = new BehaviorAgent (NarrativeState.root);
 			BehaviorManager.Instance.Register (behaviorAgent);
 			behaviorAgent.StartBehavior ();
