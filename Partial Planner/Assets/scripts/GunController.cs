@@ -27,6 +27,11 @@ public class GunController : MonoBehaviour {
 		}
 	}
 
+	public bool IsDrawn() {
+
+		return isDrawn;
+	}
+
 	public void SetIsDrawn(bool drawn) {
 
 		isDrawn = drawn;

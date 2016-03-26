@@ -11,6 +11,7 @@ public class GunTrigger : MonoBehaviour
     private Node root = null;
     private DrawGun drawGun;
     private ShootGun shootGun;
+	private GunController gunController;
 
     //public GameObject gun;
     public Player3PController playerController;
@@ -20,12 +21,13 @@ public class GunTrigger : MonoBehaviour
     {
 
 		playerController = GameObject.Find("Player").GetComponent<Player3PController>();
-    }
+		gunController = this.gameObject.GetComponent<GunController> ();
+	}
 
     // Update is called once per frame
     void Update()
     {
-		if (playerController.hasGun) {
+		if (playerController.hasGun && !gunController.IsDrawn()) {
 			if(Input.GetKeyDown(KeyCode.E)) {
 
 				Debug.LogWarning("Initiate draw gun");
@@ -36,6 +38,11 @@ public class GunTrigger : MonoBehaviour
 				BehaviorManager.Instance.Register(behaviorAgent);
 				behaviorAgent.StartBehavior();
 				playerController.isPlayerBusy = true;
+
+			}
+
+			if(gunController.IsDrawn()) {
+
 
 			}
 		}

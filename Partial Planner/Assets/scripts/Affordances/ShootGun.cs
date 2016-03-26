@@ -21,7 +21,7 @@ public class ShootGun : Affordance {
 		preconditions.Add (new Condition(affordeeName, "IsDrawn", true));
         //preconditions.Add (new Condition(affordeeName, "HasAmmo", true));
 
-		effects.Add(new Condition(affordantName, affordeeName, "HasFired", true));
+		//effects.Add(new Condition(affordantName, affordeeName, "HasFired", true));
 		//effects.Add(new Condition(affordantName, affordeeName, "IsDrawn", true));
 		
 	}
