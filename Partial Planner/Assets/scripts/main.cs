@@ -7,7 +7,8 @@ public class main : MonoBehaviour {
 
 	public GameObject ObjectiveUIPanel;
 	public GameObject objectiveFailure;
-	private bool hasPlan;
+    public DataCollection userMetrics;
+    private bool hasPlan;
 	private BehaviorAgent behaviorAgent;
 
 	// Use this for initialization
@@ -82,7 +83,7 @@ public class main : MonoBehaviour {
 		
 		swatch.Start ();
 		if (!planner.computePlan (start, goal)) {
-
+            userMetrics.setIsRunning(false);
 			hasPlan = false;
 			Debug.Log("hasPlan false");
 			ObjectiveUIPanel.SetActive(true);
@@ -127,6 +128,7 @@ public class main : MonoBehaviour {
 		}
 
 		if (NarrativeState.recomputePlan) {
+            userMetrics.incrementActions();
 			NarrativeState.recomputePlan = false;
 			this.computePlan();
 		}
@@ -139,7 +141,7 @@ public class main : MonoBehaviour {
 	}	
 	
 	public void TerimateNarrative() {
-		
+        userMetrics.setIsRunning(false);
 		objectiveFailure.SetActive (true);
 		Cursor.visible = true;
 		Cursor.lockState = CursorLockMode.None;

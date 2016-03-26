@@ -229,6 +229,7 @@
     <Compile Include="Assets\Core\Scripts\Util\ReflectionUtil.cs" />
     <Compile Include="Assets\Core\Scripts\Util\Token.cs" />
     <Compile Include="Assets\Core\Scripts\Util\Tuple.cs" />
+    <Compile Include="Assets\DataCollection.cs" />
     <Compile Include="Assets\DoorSystem\Debugger\Yurowm\DebugPanel\DebugPanel.cs" />
     <Compile Include="Assets\DoorSystem\Debugger\Yurowm\DebugPanel\DebugPanelField.cs" />
     <Compile Include="Assets\DoorSystem\Debugger\Yurowm\DebugPanel\DebugPanelViewport.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Assets\DoorSystem\Scripts\MouseLook.cs" />
     <Compile Include="Assets\DoorSystem\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\GunTrigger.cs" />
+    <Compile Include="Assets\MenuScript.cs" />
     <Compile Include="Assets\MyBehaviorTree.cs" />
     <Compile Include="Assets\scripts\Affordances\Affordance.cs" />
     <Compile Include="Assets\scripts\Affordances\Apologize.cs" />
@@ -275,6 +277,8 @@
   <ItemGroup>
     <None Include="Assets\Fortress\Shader\Diffuse.shader" />
     <None Include="Assets\Fortress\Shader\TwoSided.shader" />
+    <None Include="Assets\Huge Mocap Library\READTHIS.txt" />
+    <None Include="Assets\Military_Pistol_01_Basic_v2\Docs\Military_Pistol_Basic_Unity_Info.txt" />
     <None Include="Assets\Raw Mocap Data\Animations\_CompleteAnimationList.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\SyntaxTree\UnityVS\2015\UnityVS.CSharp.targets" />
