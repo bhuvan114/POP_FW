@@ -21,9 +21,14 @@ public class main : MonoBehaviour {
 		NarrativeState.AddCondition(new Condition("StoreDoor", "IsOpen", false));
 		NarrativeState.AddCondition(new Condition("GunStore", "HasGun", true));
 		NarrativeState.AddCondition(new Condition("Assasin", "HasMoney", true));
+
 		NarrativeState.AddCondition (new Condition("Dealer", "InScene", true));
 		NarrativeState.AddCondition(new Condition("Dealer", "HandsFree", true));
 		NarrativeState.AddCondition(new Condition("Dealer", "HasMoney", true));
+
+		NarrativeState.AddCondition (new Condition("Player", "InScene", true));
+		NarrativeState.AddCondition(new Condition("Player", "HandsFree", true));
+		NarrativeState.AddCondition(new Condition("Player", "HasMoney", true));
 		this.computePlan ();
 	}
 
@@ -41,6 +46,7 @@ public class main : MonoBehaviour {
 			cond.disp();
 			start.addEffects (cond);
 		}
+		Debug.Log ("current state!!");
 		/*start.addEffects (new Condition("Assasin", "InScene", true));
 		start.addEffects(new Condition("Assasin", "HandsFree", true));
 		start.addEffects(new Condition("StoreDoor", "IsOpen", false));
@@ -51,8 +57,8 @@ public class main : MonoBehaviour {
 		start.addEffects(new Condition("Dealer", "HasMoney", true));
 		*/
 		//goal.addPrecondition (new Condition("Person1", "Person2", "Knows", true));
-		//goal.addPrecondition (new Condition("Assasin", "Gun", "IsDrawn", true));
-		goal.addPrecondition (new Condition("Assasin", "HasGun", true));
+		//goal.addPrecondition (new Condition("Assasin", "HasGun", true));
+		goal.addPrecondition (new Condition("Assasin", "Gun", "IsDrawn", true));
 		Planner planner = new Planner ();
 		
 		
@@ -78,7 +84,12 @@ public class main : MonoBehaviour {
 		if (!planner.computePlan (start, goal)) {
 
 			hasPlan = false;
-		//	Time.timeScale = 0f;
+			Debug.Log("hasPlan false");
+			ObjectiveUIPanel.SetActive(true);
+			NarrativeState.terminated = true;
+			Cursor.visible = true;
+			Cursor.lockState = CursorLockMode.None;
+			Time.timeScale = 0f;
 		} else {
 
 			hasPlan = true;
@@ -102,7 +113,7 @@ public class main : MonoBehaviour {
 
 		if (hasPlan && !NarrativeState.root.IsRunning) {
 
-			//NarrativeState.root = new Sequence(NarrativeState.root , this.TeriminatePlan());
+			NarrativeState.root = new Sequence(NarrativeState.root , this.TeriminatePlan());
 			behaviorAgent = new BehaviorAgent (NarrativeState.root);
 			BehaviorManager.Instance.Register (behaviorAgent);
 			behaviorAgent.StartBehavior ();
@@ -130,17 +141,9 @@ public class main : MonoBehaviour {
 	public void TerimateNarrative() {
 		
 		objectiveFailure.SetActive (true);
+		Cursor.visible = true;
+		Cursor.lockState = CursorLockMode.None;
 		Time.timeScale = 0f;
-	}
-
-	void onGUI() {
-
-		if (hasPlan == false && NarrativeState.root!= null)
-		{
-			GUI.color = Color.white;
-			GUI.Box(new Rect(20, 20, 300, 25), "Objective achieved");
-			Time.timeScale = 0f;
-		}
 	}
 
 }

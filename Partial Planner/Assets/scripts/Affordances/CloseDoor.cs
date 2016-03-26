@@ -18,6 +18,7 @@ public class CloseDoor : Affordance {
 		
 		base.initialize ();
 
+		name = affordeeName + " closes " + affordantName + " door";
 		preconditions.Add(new Condition(affordeeName, "HandsFree", true));
 		preconditions.Add(new Condition(affordantName, "IsOpen", true));
 		

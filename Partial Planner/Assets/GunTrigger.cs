@@ -12,18 +12,34 @@ public class GunTrigger : MonoBehaviour
     private DrawGun drawGun;
     private ShootGun shootGun;
 
-    public GameObject gun;
+    //public GameObject gun;
     public Player3PController playerController;
 
     // Use this for initialization
     void Start()
     {
+
+		playerController = GameObject.Find("Player").GetComponent<Player3PController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+		if (playerController.hasGun) {
+			if(Input.GetKeyDown(KeyCode.E)) {
 
+				Debug.LogWarning("Initiate draw gun");
+				this.gameObject.GetComponent<GunController> ().SetIsDrawn (true);
+				drawGun = new DrawGun(playerController.GetComponent<SmartCharacter>(), this.GetComponent<SmartGun>());
+				root = new Sequence(drawGun.execute(), drawGun.UpdateState());
+				behaviorAgent = new BehaviorAgent(root);
+				BehaviorManager.Instance.Register(behaviorAgent);
+				behaviorAgent.StartBehavior();
+				playerController.isPlayerBusy = true;
+
+			}
+		}
+		/*
         if (Input.GetMouseButtonDown(0) && !gun.activeSelf)
         {
             Debug.Log("Draw");
@@ -48,6 +64,8 @@ public class GunTrigger : MonoBehaviour
             behaviorAgent.StartBehavior();
             playerController.isPlayerBusy = true;
         }
+	*/
+		
 
         if (root != null)
         {

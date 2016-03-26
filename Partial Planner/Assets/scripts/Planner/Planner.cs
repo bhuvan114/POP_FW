@@ -92,7 +92,7 @@ namespace POPL.Planner
 			
 			//g.First.disp ();
 			//Tuple<string, bool> cond = new Tuple<string, bool>(g.First.condition, g.First.status);
-			Debug.Log (g.First.condition + " - " + g.First.status);
+			//Debug.Log (g.First.condition + " - " + g.First.status);
 			foreach (string affType in Constants.affordanceRelations[g.First.condition][g.First.status]) {
 
 				foreach(Affordance act in possibleActions[affType]) {

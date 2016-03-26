@@ -12,6 +12,7 @@ public class Player3PController : MonoBehaviour {
 	public float speedDampTime = 0.1f;
 
 	public bool isPlayerBusy = false;
+	public bool hasGun = false;
 
 	private Animator anim;
 	private Transform cameraTransform;
@@ -28,7 +29,7 @@ public class Player3PController : MonoBehaviour {
 
 	void Awake()
 	{
-		anim = GetComponent<Animator> ();
+		anim = this.gameObject.GetComponent<Animator> ();
 		cameraTransform = Camera.main.transform;
 		
 		//speedFloat = Animator.StringToHash("Speed");
@@ -45,11 +46,15 @@ public class Player3PController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+
+		anim = this.gameObject.GetComponent<Animator> ();
+		//Debug.Log ("animator = " + anim.ToString());
 	}
 	
 	// Update is called once per frame
 	void Update () {
+
+		//Debug.Log ("Speed = " + speed + " animator speed = " + anim.GetFloat("Speed"));
 
 		float h = Input.GetAxis ("Horizontal");			
 		float v = Input.GetAxis ("Vertical");
@@ -70,15 +75,16 @@ public class Player3PController : MonoBehaviour {
 				isMoving = Mathf.Abs (v) > 0.1;
 
 				if (isMoving) {
-
+					//Debug.Log("Player is moving");
 					MovementManagement (h, v);
 				} else {
-
+					//Debug.Log("Player not moving");
 					UpdateDirection ();
 				}
 
 			//}
 		}
+		//Debug.Log ("Speed = " + speed + " animator speed = " + anim.GetFloat("Speed"));
 	}
 
 	void FixedUpdate ()
@@ -140,7 +146,9 @@ public class Player3PController : MonoBehaviour {
 
 			speed = walkSpeed;
 		}
+		//Debug.Log ("Speed = " + speed + " animator speed = " + anim.GetFloat("Speed"));
 		anim.SetFloat ("Speed", speed);	
+		//Debug.Log ("Speed = " + speed + " animator speed = " + anim.GetFloat("Speed"));
 		//anim.SetFloat ("AngularSpeed", horizontal*100);
 		anim.SetFloat ("AngularSpeed", angDiff);
 		//Rotating(horizontal, vertical);
@@ -160,6 +168,7 @@ public class Player3PController : MonoBehaviour {
 		//	anim.SetFloat("Speed", 0f);
 		//}
 		//GetComponent<Rigidbody>().AddForce(Vector3.forward*speed);
+		//Debug.Log ("Speed = " + speed + " animator speed = " + anim.GetFloat("Speed"));
 	}
 	/*
 	Vector3 Rotating(float horizontal, float vertical)
@@ -215,4 +224,5 @@ public class Player3PController : MonoBehaviour {
 			GetComponent<Rigidbody>().MoveRotation (newRotation);
 		}
 	}*/
+
 }

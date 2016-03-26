@@ -212,7 +212,7 @@ public class BodyMecanim : MonoBehaviour
     /// </summary>
     public void HandAnimation(string gestureName, bool isActive)
     {
-		Debug.LogError ("Hand animation - " + gestureName);
+		//Debug.LogError ("Hand animation - " + gestureName);
 
         if (isActive == true)
             this.ResetAnimation();

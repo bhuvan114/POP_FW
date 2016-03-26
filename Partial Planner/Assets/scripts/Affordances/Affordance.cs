@@ -17,8 +17,10 @@ namespace POPL.Planner
 		protected Node treeRoot = null;
 
 		public Affordance() {
-			affodant = new SmartObject ("affodant");
-			affordee = new SmartObject ("affordee");
+			//affodant = new SmartObject ("affodant");
+			//affordee = new SmartObject ("affordee");
+			affodant = GameObject.Find ("affodant").GetComponent<SmartObject> ();
+			affordee = GameObject.Find ("affordee").GetComponent<SmartObject> ();
 			initialize ();
 		}
 
@@ -97,6 +99,18 @@ namespace POPL.Planner
 			//Debug.Log ("called for - " + name);
 			foreach (Condition effect in effects)
 				NarrativeState.AddCondition (effect);
+		}
+
+		public bool CheckAffordancePreconditions() {
+
+			List<Condition> conditions = NarrativeState.GetNarrativeState ();
+			foreach (Condition cond in preconditions) {
+
+				if(!conditions.Contains(cond)) {
+					return false;
+				}
+			}
+			return true;
 		}
 	}
 }

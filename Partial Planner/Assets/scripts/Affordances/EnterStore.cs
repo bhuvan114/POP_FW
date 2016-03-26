@@ -21,6 +21,7 @@ public class EnterStore : Affordance {
 		
 		base.initialize ();
 
+		name = affordeeName + " enters " + affordantName;
 		effects.Add(new Condition(affordeeName, affordantName, "InStore", true));
 
 		treeRoot = this.execute ();

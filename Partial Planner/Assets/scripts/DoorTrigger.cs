@@ -29,12 +29,12 @@ public class DoorTrigger : MonoBehaviour {
 			if(door.Running == false) {
 				if (door.State == 0) {
 					Debug.Log("Open");
-					root = openDoor.execute();
+					root = new Sequence(openDoor.execute(), openDoor.UpdateState());
 					behaviorAgent = new BehaviorAgent (root);
 
 				} else {
 					Debug.Log("Close");
-					root = closeDoor.execute();
+					root = new Sequence(closeDoor.execute(), closeDoor.UpdateState());
 					behaviorAgent = new BehaviorAgent (root);
 				}
 			
@@ -53,6 +53,7 @@ public class DoorTrigger : MonoBehaviour {
 				root = null;
 				//doorState = true;
 				door.State ^= 1;
+				NarrativeState.recomputePlan = true;
 			}
 		}
 	}

@@ -6,11 +6,15 @@ using POPL.Planner;
 
 public class BuyWeapon : Affordance {
 
-	GameObject storeDealer;
-	
+	//GameObject storeDealer;
+	GameObject hipHolder;
+	GameObject gun;
+
 	public BuyWeapon(SmartStore afdnt, SmartCharacter afdee) {
 
-		storeDealer = HelperFunctions.GetChildGameObjectByName (afdnt.gameObject, "Dealer");
+		//storeDealer = HelperFunctions.GetChildGameObjectByName (afdnt.gameObject, "Dealer");
+		hipHolder = afdee.hipHolder;
+		gun = HelperFunctions.GetChildGameObjectByName (afdnt.gameObject, "Gun");
 		affodant = afdnt;
 		affordee = afdee;
 		initialize ();
@@ -36,6 +40,7 @@ public class BuyWeapon : Affordance {
 	public Node execute() {
 
 		//Debug.Log ("Dealer - " + storeDealer);
-		return new Sequence (affordee.gameObject.GetComponent<BehaviorMecanim> ().Node_HandAnimation ("GRAB", true), storeDealer.gameObject.GetComponent<BehaviorMecanim> ().Node_HandAnimation ("GRAB", true));
+		return new Sequence (affordee.gameObject.GetComponent<BehaviorMecanim> ().Node_HandAnimation ("GRAB", true), /*storeDealer.gameObject.GetComponent<BehaviorMecanim> ().Node_HandAnimation ("GRAB", true)*/
+		                     new LeafInvoke(() => gun.GetComponent<GunController>().SetHolder(hipHolder)));
 	}
 }

@@ -49,13 +49,13 @@ public class StoreTrigger : MonoBehaviour {
 
 		if (root != null) {
 			if (!root.IsRunning) {
-                gun.SetActive(false);
+                //gun.SetActive(false);
 				playerController.isPlayerBusy = false;
 				playerController.gameObject.GetComponent<CharacterMecanim> ().ResetAnimation ();
 				root = null;
 
 				NarrativeState.recomputePlan = true;
-                playerController.GetComponent<GunTrigger>().enabled = true;
+                //playerController.GetComponent<GunTrigger>().enabled = true;
 			}
 		}
 	}
@@ -102,6 +102,7 @@ public class StoreTrigger : MonoBehaviour {
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 		Time.timeScale = 1f;
+		playerController.hasGun = true;
 
 		root = new Sequence(enterStore.execute(), enterStore.UpdateState(), buyWeapon.execute(), buyWeapon.UpdateState());
 		behaviorAgent = new BehaviorAgent (root);

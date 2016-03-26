@@ -9,13 +9,4 @@ public class SmartStore : SmartObject {
 	public EnterStore enterStore;
 
 	public SmartDoor storeDoor;
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 }

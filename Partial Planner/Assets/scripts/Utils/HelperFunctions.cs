@@ -194,6 +194,7 @@ namespace POPL.Planner
 					return t.gameObject;
 			}
 
+			Debug.LogWarning("No Object " + name + " found in " + parent.name);
 			return null;
 
 		}

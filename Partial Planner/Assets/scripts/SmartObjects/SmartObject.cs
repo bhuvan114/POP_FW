@@ -8,15 +8,6 @@ namespace POPL.Planner
 	public class SmartObject : MonoBehaviour {
 
 		public string name;
-		// Use this for initialization
-		void Start () {
-		
-		}
-		
-		// Update is called once per frame
-		void Update () {
-		
-		}
 
 		public List<System.Type> getAllAffordances() {
 

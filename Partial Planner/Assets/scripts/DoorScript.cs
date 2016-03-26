@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEditor;
+//using UnityEditor;
 using System.Collections;
 
 public class DoorScript : MonoBehaviour {
@@ -137,8 +137,8 @@ public class DoorScript : MonoBehaviour {
 		// USER ERROR CODES
 		if (Mathf.Abs(StartAngle) + Mathf.Abs(EndAngle) == 180 || Mathf.Abs(StartAngle) + Mathf.Abs(EndAngle) > 180)
 		{
-			UnityEditor.EditorUtility.DisplayDialog ("Error 001","Difference between StartAngle and EndAngle can't be >=180", "Ok", "");
-			UnityEditor.EditorApplication.isPlaying = false;
+			//UnityEditor.EditorUtility.DisplayDialog ("Error 001","Difference between StartAngle and EndAngle can't be >=180", "Ok", "");
+			//UnityEditor.EditorApplication.isPlaying = false;
 		}
 		
 		// Angle defining.

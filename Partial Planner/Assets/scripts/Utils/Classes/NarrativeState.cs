@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,10 +10,13 @@ using POPL.Planner;
 public static class NarrativeState {
 
 	private static List<Condition> conditions =  new List<Condition>();
+	private static List<Condition> conditions_NoPlayer =  new List<Condition>();
 	private static List<Affordance> actions = new List<Affordance>();
 	private static List<CausalLink> causalLinks = new List<CausalLink>();
 	private static Dictionary<Affordance, List<Affordance>> constraints = new Dictionary<Affordance, List<Affordance>> ();
 	private static Dictionary<Affordance, int> affOrder = new Dictionary<Affordance, int> ();
+	private static string journalMessage;
+	public static bool terminated = false;
 	//private static Dictionary<int, List<Affordance>> affOrder = new Dictionary<int, List<Affordance>> ();
 
 	public static Node root = null;
@@ -21,25 +25,41 @@ public static class NarrativeState {
 	public static void AddCondition(Condition cond) {
 
 		//cond.disp ();
-		foreach (Condition effect in conditions) {
-
-			if(effect.isNegation(cond)) {
-
-				conditions.Remove(effect);
-				conditions.Add(cond);
+		//foreach (Condition effect in conditions) {
+		for(int ind = 0; ind < conditions.Count; ind++) {
+			//if(effect.isNegation(cond)) {
+			if(conditions[ind].isNegation(cond)) {
+				//Debug.Log ("Negation");
+				//effect.disp ();
+				//cond.disp ();
+				conditions[ind] = cond;
+				//conditions.Remove(effect);
+				//conditions.Add(cond);
+				/*if (cond.actor1 != "Player" && cond.actor2 != "Player") {
+					conditions_NoPlayer.Remove(effect);
+					conditions_NoPlayer.Add(cond);
+				}*/
 				return;
-			} else if (effect.Equals(cond)) {
+			} else if (conditions[ind].Equals(cond)) {
 
 				return;
 			}
 		}
-
+		//if (cond.actor1 != "Player" && cond.actor2 != "Player")
+		//	conditions_NoPlayer.Add(cond);
+		Debug.Log("New Affordance");
+		cond.disp ();
 		conditions.Add (cond);
 	}
 
 	public static List<Condition> GetNarrativeState() {
 
 		return conditions;
+	}
+
+	public static List<Condition> GetNarrativeStateWithoutPlayer() {
+
+		return conditions_NoPlayer;
 	}
 
 	public static void SetAffordances(List<Affordance> acts) {
@@ -88,6 +108,7 @@ public static class NarrativeState {
 
 	public static void GenerateNarrative_V2() {
 
+		affOrder = new Dictionary<Affordance, int> ();
 		Debug.LogWarning ("GenerateNarrative_V2");
 		int indx = actions.Count;
 		foreach (Affordance act in actions) {
@@ -125,6 +146,7 @@ public static class NarrativeState {
 			Debug.LogWarning(affOrder[act]);
 		}*/
 		List<Node> affSTs = new List<Node>();
+		journalMessage = "- Day started\n";
 		Debug.Log ("Indx = " + indx);
 		for (int i=1; i<indx; i++) {
 			//Debug.Log ("i = " + i);
@@ -135,9 +157,18 @@ public static class NarrativeState {
 
 					//act.disp();
 					affSTs.Add(new Sequence(act.GetSubTree(), act.UpdateState ()));
+
+					journalMessage = journalMessage + "- " + act.name + "\n";
 				}
 			}
 		}
 		root = new Sequence(affSTs.ToArray());
+		//UpdateJournal (journalMessage);
+	}
+
+	public static void UpdateJournal() {
+
+		Text journal = GameObject.Find ("JournalText").GetComponent<Text>();
+		journal.text = journalMessage;
 	}
 }

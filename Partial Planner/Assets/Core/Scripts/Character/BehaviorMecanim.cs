@@ -198,7 +198,7 @@ public class BehaviorMecanim : MonoBehaviour
     /// </summary>
     public Node Node_HandAnimation(Val<string> gestureName, Val<bool> start)
     {
-		Debug.LogError ("Node_HandAnimation + " + gestureName.Value);
+		//Debug.LogError ("Node_HandAnimation + " + gestureName.Value);
         return new LeafInvoke(
             () => this.Character.HandAnimation(gestureName, start),
             () => this.Character.HandAnimation(gestureName, false));

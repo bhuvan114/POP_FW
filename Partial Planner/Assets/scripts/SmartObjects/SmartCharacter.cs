@@ -10,14 +10,6 @@ public class SmartCharacter : SmartObject {
 	//public Apologize apologize;
 	//public Argue argue;
 	public DrawGun drawGun;
-
-	// Use this for initialization
-	void Start () {
-		//getAllAffordances ();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	public GameObject hipHolder;
+	public GameObject handHolder;
 }

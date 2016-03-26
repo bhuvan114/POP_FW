@@ -5,6 +5,7 @@ public class ThirdPersonOrbitCam : MonoBehaviour
 {
 	public Transform player;
 	public Texture2D crosshair;
+	public Transform godsEye;
 	
 	public Vector3 pivotOffset = new Vector3(0.0f, 1.0f,  0.0f);
 	public Vector3 camOffset   = new Vector3(0.0f, 0.7f, -3.0f);
@@ -56,68 +57,70 @@ public class ThirdPersonOrbitCam : MonoBehaviour
 	
 	void LateUpdate()
 	{
-		angleH += Mathf.Clamp(Input.GetAxis("Mouse X"), -1, 1) * horizontalAimingSpeed * Time.deltaTime;
-		angleV += Mathf.Clamp(Input.GetAxis("Mouse Y"), -1, 1) * verticalAimingSpeed * Time.deltaTime;
+		if (!Input.GetKey (KeyCode.C)) {
+			angleH += Mathf.Clamp (Input.GetAxis ("Mouse X"), -1, 1) * horizontalAimingSpeed * Time.deltaTime;
+			angleV += Mathf.Clamp (Input.GetAxis ("Mouse Y"), -1, 1) * verticalAimingSpeed * Time.deltaTime;
 		
-		// fly
-		/*if(playerControl.IsFlying())
+			// fly
+			/*if(playerControl.IsFlying())
 		{
 			angleV = Mathf.Clamp(angleV, minVerticalAngle, flyMaxVerticalAngle);
 		}
 		else
 		{*/
-			angleV = Mathf.Clamp(angleV, minVerticalAngle, maxVerticalAngle);
-		//}
+			angleV = Mathf.Clamp (angleV, minVerticalAngle, maxVerticalAngle);
+			//}
 		
 		
-		Quaternion aimRotation = Quaternion.Euler(-angleV, angleH, 0);
-		Quaternion camYRotation = Quaternion.Euler(0, angleH, 0);
-		cam.rotation = aimRotation;
+			Quaternion aimRotation = Quaternion.Euler (-angleV, angleH, 0);
+			Quaternion camYRotation = Quaternion.Euler (0, angleH, 0);
+			cam.rotation = aimRotation;
 		
-		if(playerControl.IsAiming())
-		{
-			targetPivotOffset = aimPivotOffset;
-			targetCamOffset = aimCamOffset;
-		}
-		else
-		{
-			targetPivotOffset = pivotOffset;
-			targetCamOffset = camOffset;
-		}
-		
-		//if(playerControl.isSprinting())
-		//{
-		//	targetFOV = sprintFOV;
-		//}
-		//else
-		//{
-			targetFOV = defaultFOV;
-		//}
-		cam.GetComponent<Camera>().fieldOfView = Mathf.Lerp (cam.GetComponent<Camera>().fieldOfView, targetFOV,  Time.deltaTime);
-		
-		// Test for collision
-		Vector3 baseTempPosition = player.position + camYRotation * targetPivotOffset;
-		Vector3 tempOffset = targetCamOffset;
-		for(float zOffset = targetCamOffset.z; zOffset < 0; zOffset += 0.5f)
-		{
-			tempOffset.z = zOffset;
-			if(DoubleViewingPosCheck(baseTempPosition + aimRotation * tempOffset))
-			{
-				targetCamOffset.z = tempOffset.z;
-				break;
+			if (playerControl.IsAiming ()) {
+				targetPivotOffset = aimPivotOffset;
+				targetCamOffset = aimCamOffset;
+			} else {
+				targetPivotOffset = pivotOffset;
+				targetCamOffset = camOffset;
 			}
-		}
 		
-		// fly
-		/*if(playerControl.IsFlying())
+			//if(playerControl.isSprinting())
+			//{
+			//	targetFOV = sprintFOV;
+			//}
+			//else
+			//{
+			targetFOV = defaultFOV;
+			//}
+			cam.GetComponent<Camera> ().fieldOfView = Mathf.Lerp (cam.GetComponent<Camera> ().fieldOfView, targetFOV, Time.deltaTime);
+		
+			// Test for collision
+			Vector3 baseTempPosition = player.position + camYRotation * targetPivotOffset;
+			Vector3 tempOffset = targetCamOffset;
+			for (float zOffset = targetCamOffset.z; zOffset < 0; zOffset += 0.5f) {
+				tempOffset.z = zOffset;
+				if (DoubleViewingPosCheck (baseTempPosition + aimRotation * tempOffset)) {
+					targetCamOffset.z = tempOffset.z;
+					break;
+				}
+			}
+		
+			// fly
+			/*if(playerControl.IsFlying())
 		{
 			targetCamOffset.y = 0;
 		}*/
 		
-		smoothPivotOffset = Vector3.Lerp(smoothPivotOffset, targetPivotOffset, smooth * Time.deltaTime);
-		smoothCamOffset = Vector3.Lerp(smoothCamOffset, targetCamOffset, smooth * Time.deltaTime);
+			smoothPivotOffset = Vector3.Lerp (smoothPivotOffset, targetPivotOffset, smooth * Time.deltaTime);
+			smoothCamOffset = Vector3.Lerp (smoothCamOffset, targetCamOffset, smooth * Time.deltaTime);
 		
-		cam.position =  player.position + camYRotation * smoothPivotOffset + aimRotation * smoothCamOffset;
+			cam.position = player.position + camYRotation * smoothPivotOffset + aimRotation * smoothCamOffset;
+		} else {
+
+			cam.rotation = godsEye.rotation;
+			cam.position = godsEye.position;
+			cam.GetComponent<Camera> ().fieldOfView = Mathf.Lerp (cam.GetComponent<Camera> ().fieldOfView, defaultFOV, Time.deltaTime);
+		}
 		
 	}
 	
