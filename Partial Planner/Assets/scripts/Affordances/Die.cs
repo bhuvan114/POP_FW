@@ -7,10 +7,11 @@ using POPL.Planner;
 public class Die: Affordance {
 	
 	
-	public Die(SmartCharacter afdnt) {
+	public Die(SmartCharacter afdnt, SmartCharacter afdee) {
 		
 		affodant = afdnt;
-		initialize ();
+        affordee = afdee;
+        initialize ();
 	}
 	
 	void initialize() {

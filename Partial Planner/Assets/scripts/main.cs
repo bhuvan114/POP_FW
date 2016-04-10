@@ -20,7 +20,8 @@ public class main : MonoBehaviour {
 		NarrativeState.AddCondition (new Condition("Assasin", "InScene", true));
 		NarrativeState.AddCondition(new Condition("Assasin", "HandsFree", true));
 		NarrativeState.AddCondition(new Condition("StoreDoor", "IsOpen", false));
-		NarrativeState.AddCondition(new Condition("GunStore", "HasGun", true));
+        NarrativeState.AddCondition(new Condition("StoreDoor", "IsLocked", false));
+        NarrativeState.AddCondition(new Condition("GunStore", "HasGun", true));
 		NarrativeState.AddCondition(new Condition("Assasin", "HasMoney", true));
 
 		NarrativeState.AddCondition (new Condition("Dealer", "InScene", true));

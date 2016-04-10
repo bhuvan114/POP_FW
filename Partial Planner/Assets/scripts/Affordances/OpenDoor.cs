@@ -23,8 +23,9 @@ public class OpenDoor : Affordance {
 		name = affordeeName + " opens " + affordantName + " door";
 		preconditions.Add(new Condition(affordeeName, "HandsFree", true));
 		preconditions.Add(new Condition(affordantName, "IsOpen", false));
-		
-		effects.Add(new Condition(affordantName, "IsOpen", true));
+        preconditions.Add(new Condition(affordantName, "IsLocked", false));
+
+        effects.Add(new Condition(affordantName, "IsOpen", true));
 		treeRoot = this.execute ();
 		
 	}

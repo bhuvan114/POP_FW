@@ -9,9 +9,11 @@ public class DoorTrigger : MonoBehaviour {
 	public DoorScript door;
 	public Transform OpenPoint1;
 	public Transform OpenPoint2;
+    public bool hasKey = false;
 
 	private OpenDoor openDoor;
 	private CloseDoor closeDoor;
+    private LockDoor lockDoor;
 	private BehaviorAgent behaviorAgent;
 	private Player3PController playerController;
 	private Node root = null;
@@ -46,7 +48,26 @@ public class DoorTrigger : MonoBehaviour {
 			//	StartCoroutine(door.Open ());
 		}
 
-		if (root != null) {
+        if (door.isPlayerDetected && Input.GetKeyDown(KeyCode.F) && hasKey)
+        {
+            //Debug.LogError("Key Recorded");
+            if (door.Running == false)
+            {
+                if (door.State == 0)
+                {
+                    Debug.Log("Lock");
+                    root = new Sequence(lockDoor.execute(), lockDoor.UpdateState());
+                    behaviorAgent = new BehaviorAgent(root);
+                }
+            }
+
+
+            BehaviorManager.Instance.Register(behaviorAgent);
+            behaviorAgent.StartBehavior();
+            playerController.isPlayerBusy = true;
+        }
+
+                    if (root != null) {
 			if(!root.IsRunning) {
 				playerController.isPlayerBusy = false;
 				playerController.gameObject.GetComponent<CharacterMecanim>().ResetAnimation();

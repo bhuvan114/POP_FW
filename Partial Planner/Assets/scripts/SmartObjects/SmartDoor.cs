@@ -7,4 +7,5 @@ public class SmartDoor : SmartObject {
 
 	public OpenDoor open;
 	public CloseDoor close;
+    public LockDoor lockd;
 }

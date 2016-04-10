@@ -13,6 +13,7 @@ public class Player3PController : MonoBehaviour {
 
 	public bool isPlayerBusy = false;
 	public bool hasGun = false;
+    public bool hasPhone = false;
 
 	private Animator anim;
 	private Transform cameraTransform;

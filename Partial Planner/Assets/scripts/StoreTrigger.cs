@@ -15,6 +15,7 @@ public class StoreTrigger : MonoBehaviour {
 
 	private EnterStore enterStore;
 	private BuyWeapon buyWeapon;
+    private BuyStore buyStore;
 	private BehaviorAgent behaviorAgent;
 	private Node root = null;
 	private Player3PController playerController;
@@ -68,7 +69,8 @@ public class StoreTrigger : MonoBehaviour {
 			playerController = other.GetComponent<Player3PController>();
 			enterStore = new EnterStore(store.GetComponent<SmartStore>(), other.GetComponent<SmartCharacter>());
 			buyWeapon = new BuyWeapon(store.GetComponent<SmartStore>(), other.GetComponent<SmartCharacter>());
-			//openDoor = new OpenDoor(door.GetComponent<SmartDoor>(), other.GetComponent<SmartCharacter>());
+            buyStore = new BuyStore(store.GetComponent<SmartStore>(), other.GetComponent<SmartCharacter>());
+            //openDoor = new OpenDoor(door.GetComponent<SmartDoor>(), other.GetComponent<SmartCharacter>());
 			//closeDoor = new CloseDoor(door.GetComponent<SmartDoor>(), other.GetComponent<SmartCharacter>());
 		}
 	}
