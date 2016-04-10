@@ -76,6 +76,7 @@ public class GameController : MonoBehaviour {
 					NarrativeState.UpdateJournal ();
 				}
 			}
+
 		if (isPaused)
 			Time.timeScale = 0f;
 		//}

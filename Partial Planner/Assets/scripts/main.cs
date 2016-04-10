@@ -10,6 +10,7 @@ public class main : MonoBehaviour {
     public DataCollection userMetrics;
     private bool hasPlan;
 	private BehaviorAgent behaviorAgent;
+	private bool journalUpdated;
 
 	// Use this for initialization
 	void Start () {
@@ -58,8 +59,8 @@ public class main : MonoBehaviour {
 		start.addEffects(new Condition("Dealer", "HasMoney", true));
 		*/
 		//goal.addPrecondition (new Condition("Person1", "Person2", "Knows", true));
-		//goal.addPrecondition (new Condition("Assasin", "HasGun", true));
-		goal.addPrecondition (new Condition("Assasin", "Gun", "IsDrawn", true));
+		goal.addPrecondition (new Condition("Assasin", "HasGun", true));
+		//goal.addPrecondition (new Condition("Assasin", "Gun", "IsDrawn", true));
 		Planner planner = new Planner ();
 		
 		
@@ -99,6 +100,7 @@ public class main : MonoBehaviour {
 			NarrativeState.SetOrderingConstraints(planner.getConstarints());
 			//NarrativeState.GenerateNarrative();
 			NarrativeState.GenerateNarrative_V2();
+			journalUpdated = true;
 			Time.timeScale = 1f;
 		}
 		swatch.Stop ();
@@ -132,6 +134,9 @@ public class main : MonoBehaviour {
 			NarrativeState.recomputePlan = false;
 			this.computePlan();
 		}
+
+		if (Input.GetKeyDown (KeyCode.J))
+			journalUpdated = false;
 	}
 
 	public Node TeriminatePlan () {
@@ -146,6 +151,16 @@ public class main : MonoBehaviour {
 		Cursor.visible = true;
 		Cursor.lockState = CursorLockMode.None;
 		Time.timeScale = 0f;
+	}
+
+	void OnGUI ()
+	{
+		if (journalUpdated)
+		{
+			GUI.color = Color.white;
+
+			GUI.Box(new Rect(40, Screen.height-30, 250, 25), "Journal updated. Press 'J' to view!!");
+		}
 	}
 
 }
