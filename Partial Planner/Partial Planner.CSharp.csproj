@@ -266,6 +266,7 @@
     <Compile Include="Assets\scripts\SmartObjects\SmartDoor.cs" />
     <Compile Include="Assets\scripts\SmartObjects\SmartGun.cs" />
     <Compile Include="Assets\scripts\SmartObjects\SmartObject.cs" />
+    <Compile Include="Assets\scripts\SmartObjects\SmartPhone.cs" />
     <Compile Include="Assets\scripts\SmartObjects\SmartStore.cs" />
     <Compile Include="Assets\scripts\StoreInteractMenu.cs" />
     <Compile Include="Assets\scripts\StoreTrigger.cs" />

@@ -114,4 +114,21 @@ public class StoreTrigger : MonoBehaviour {
 
 
 	}
+
+    public void BuyStore()
+    {
+        Debug.Log("BuyStore");
+        displayInteractionPannel = false;
+        StoreUIPanel.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1f;
+        playerController.hasKey = true;
+
+        root = new Sequence(enterStore.execute(), enterStore.UpdateState(), buyStore.execute(), buyStore.UpdateState());
+        behaviorAgent = new BehaviorAgent(root);
+        BehaviorManager.Instance.Register(behaviorAgent);
+        behaviorAgent.StartBehavior();
+        playerController.isPlayerBusy = true;
+    }
 }

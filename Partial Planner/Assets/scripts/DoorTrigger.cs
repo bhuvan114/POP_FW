@@ -48,7 +48,7 @@ public class DoorTrigger : MonoBehaviour {
 			//	StartCoroutine(door.Open ());
 		}
 
-        if (door.isPlayerDetected && Input.GetKeyDown(KeyCode.F) && hasKey)
+        if (door.isPlayerDetected && Input.GetKeyDown(KeyCode.F) && playerController.hasKey)
         {
             //Debug.LogError("Key Recorded");
             if (door.Running == false)
@@ -86,6 +86,7 @@ public class DoorTrigger : MonoBehaviour {
 			playerController = other.GetComponent<Player3PController>();
 			openDoor = new OpenDoor(door.GetComponent<SmartDoor>(), other.GetComponent<SmartCharacter>());
 			closeDoor = new CloseDoor(door.GetComponent<SmartDoor>(), other.GetComponent<SmartCharacter>());
+            lockDoor = new LockDoor(door.GetComponent<SmartDoor>(), other.GetComponent<SmartCharacter>());
 			if(Vector3.Distance(other.transform.position, OpenPoint1.transform.position) < Vector3.Distance(other.transform.position, OpenPoint2.transform.position)) {
 				door.OpenPoint = OpenPoint1.transform;
 			} else {

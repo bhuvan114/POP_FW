@@ -37,7 +37,7 @@ public class LockDoor : Affordance
     public Node execute()
     {
         //Debug.LogError ("Execute");
-        Debug.Log("Die execute");
+        Debug.Log("Lock execute");
         return new Sequence(this.LockAnimation());
     }
 

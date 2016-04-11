@@ -15,7 +15,6 @@ public class PhoneTrigger : MonoBehaviour {
 
     void Start()
     {
-
         playerController = GameObject.Find("Player").GetComponent<Player3PController>();
         //phoneController = this.gameObject.GetComponent<PhoneController>();
     }
@@ -24,19 +23,27 @@ public class PhoneTrigger : MonoBehaviour {
     void Update()
     {
 
-        if (playerController.hasPhone)
-        {
             if (Input.GetKeyDown(KeyCode.T))
             {
                 Debug.LogWarning("Initiate use phone");
 
-                /*usePhone = new DrawGun(playerController.GetComponent<SmartCharacter>(), this.GetComponent<SmartPhone>());
+                usePhone = new UsePhone(this.GetComponent<SmartPhone>(), playerController.GetComponent<SmartCharacter>());
                 root = new Sequence(usePhone.execute(), usePhone.UpdateState());
 				behaviorAgent = new BehaviorAgent(root);
 				BehaviorManager.Instance.Register(behaviorAgent);
 				behaviorAgent.StartBehavior();
 				playerController.isPlayerBusy = true;
-                */
+            }
+
+        if (root != null)
+        {
+            if (!root.IsRunning)
+            {
+                playerController.isPlayerBusy = false;
+                //playerController.gameObject.GetComponent<CharacterMecanim>().ResetAnimation();
+                //root = null;
+
+                //NarrativeState.recomputePlan = true;
             }
         }
     }

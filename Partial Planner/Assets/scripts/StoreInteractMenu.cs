@@ -15,6 +15,11 @@ public class StoreInteractMenu : MonoBehaviour {
 		storeTrigger.BuyWeapon ();
 	}
 
+    public void BuyStore()
+    {
+        storeTrigger.BuyStore();
+    }
+
 	public void setStore(GameObject obj) {
 
 		storeTrigger = obj.GetComponent<StoreTrigger>();

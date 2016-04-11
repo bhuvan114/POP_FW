@@ -8,10 +8,11 @@ public class UsePhone : Affordance
 {
 
 
-    public UsePhone(SmartCharacter afdnt, SmartCharacter afdee)
+    public UsePhone(SmartPhone afdnt, SmartCharacter afdee)
     {
 
         affodant = afdnt;
+        affordee = afdee;
         initialize();
     }
 
@@ -38,7 +39,7 @@ public class UsePhone : Affordance
     {
         Debug.Log("UsePhoneAnimation");
         return new Sequence(
-            affodant.GetComponent<BehaviorMecanim>().Node_BodyAnimation("TALKING ON PHONE", true), new LeafWait(500)
+            affordee.GetComponent<BehaviorMecanim>().Node_BodyAnimation("TALKING ON PHONE", true), new LeafWait(500)
             );
     }
 }

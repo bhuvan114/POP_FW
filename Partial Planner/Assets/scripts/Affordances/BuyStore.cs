@@ -39,7 +39,7 @@ public class BuyStore : Affordance
     public Node execute()
     {
 
-        //Debug.Log ("Dealer - " + storeDealer);
+        Debug.Log ("Buying Store ");
         return new Sequence(affordee.gameObject.GetComponent<BehaviorMecanim>().Node_HandAnimation("GRAB", true) /*storeDealer.gameObject.GetComponent<BehaviorMecanim> ().Node_HandAnimation ("GRAB", true)*/
                              );
     }
