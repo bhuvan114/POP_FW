@@ -11,7 +11,7 @@ public class DataCollection : MonoBehaviour
     private String post_url = "http://posttestserver.com/post.php?dir=mpd133";
 
     // Use this for initialization
-    void Start()
+   /* void Start()
     {
         isRunning = true;
         actions = 0;
@@ -36,7 +36,12 @@ public class DataCollection : MonoBehaviour
         Debug.Log("Toggle Timer: " + timer);
         isRunning = flag;
         StartCoroutine(postData());
-    }
+    }*/
+
+	public void publishData() {
+
+		StartCoroutine(postData());
+	}
 
     public void incrementActions()
     {
@@ -48,8 +53,10 @@ public class DataCollection : MonoBehaviour
     {
         // Build the URL and feed it to a WWW object
         WWWForm form = new WWWForm();
-        form.AddField("actions", actions.ToString());
-        form.AddField("time", timer.ToString());
+        //form.AddField("actions", actions.ToString());
+        //form.AddField("time", timer.ToString());
+		form.AddField ("planTimes", NarrativeStateManager.planTimes);
+		form.AddField ("planLengths", NarrativeStateManager.planLengths);
         WWW survey_info = new WWW(post_url, form);
 
         // Wait for the request to send

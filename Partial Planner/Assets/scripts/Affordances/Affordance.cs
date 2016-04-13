@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TreeSharpPlus;
 
 namespace POPL.Planner
 {
-	public class Affordance {
+	public class Affordance : IEquatable<Affordance> {
 
 		public SmartObject affodant, affordee;
 		public string name = "";
@@ -39,6 +40,11 @@ namespace POPL.Planner
 		public List<Condition> getEffects() {
 			
 			return effects;
+		}
+
+		public void removeEffects() {
+
+			effects = new List<Condition> ();
 		}
 
 		public void addPrecondition(Condition cond) {
@@ -90,6 +96,19 @@ namespace POPL.Planner
 			return this.treeRoot;
 		}
 
+		public Node UpdateStateForUI() {
+			
+			return new LeafInvoke(
+				() => this.UpdateNarrativeStateForUI());
+		}
+
+		public void UpdateNarrativeStateForUI() {
+			//Debug.Log ("called for - " + name);
+			//foreach (Condition effect in effects)
+			//	NarrativeState.AddCondition (effect);
+			NarrativeStateManager.UpdateNarrativeStateForUserAction(this);
+		}
+
 		public Node UpdateState() {
 			return new LeafInvoke(
 				() => this.UpdateNarrativeState());
@@ -97,8 +116,9 @@ namespace POPL.Planner
 
 		public void UpdateNarrativeState() {
 			//Debug.Log ("called for - " + name);
-			foreach (Condition effect in effects)
-				NarrativeState.AddCondition (effect);
+			//foreach (Condition effect in effects)
+			//	NarrativeState.AddCondition (effect);
+			NarrativeStateManager.UpdateNarrativeState(this);
 		}
 
 		public bool CheckAffordancePreconditions() {

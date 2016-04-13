@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//using POPL.Planner;
+
 public class GameController : MonoBehaviour {
 
 	public GameObject PauseMenu;
@@ -73,10 +75,9 @@ public class GameController : MonoBehaviour {
 					Cursor.visible = true;
 					Time.timeScale = 0f;
 					JournalPane.SetActive (true);
-					NarrativeState.UpdateJournal ();
+					NarrativeStateManager.UpdateJournal ();
 				}
 			}
-
 		if (isPaused)
 			Time.timeScale = 0f;
 		//}

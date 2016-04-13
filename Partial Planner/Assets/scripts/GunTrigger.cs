@@ -31,7 +31,7 @@ public class GunTrigger : MonoBehaviour
 			if(Input.GetKeyDown(KeyCode.E)) {
 
 				Debug.LogWarning("Initiate draw gun");
-				this.gameObject.GetComponent<GunController> ().SetIsDrawn (true);
+				gunController.SetIsDrawn (true);
 				drawGun = new DrawGun(playerController.GetComponent<SmartCharacter>(), this.GetComponent<SmartGun>());
 				root = new Sequence(drawGun.execute(), drawGun.UpdateState());
 				behaviorAgent = new BehaviorAgent(root);
@@ -40,12 +40,26 @@ public class GunTrigger : MonoBehaviour
 				playerController.isPlayerBusy = true;
 
 			}
+		}
 
-			if(gunController.IsDrawn()) {
+		if(gunController.IsDrawn()) {
+			if(Input.GetMouseButtonDown(0)) {
 
+				//Debug.LogWarning ("Left mouse clicked!!");
+				Ray cameraRay = Camera.main.ScreenPointToRay(new Vector3(Screen.width/2, Screen.height/2, 0));
+				RaycastHit hit;
+				int layerMask = 1 << 8;
+				if (Physics.Raycast (cameraRay, out hit, 200, layerMask)) {
 
+					//Debug.LogWarning (hit.collider.gameObject.tag);
+					if (hit.collider.gameObject.CompareTag("SmartObject"))
+					{
+							Debug.LogWarning ("Hit!!");
+					}
+				}
 			}
 		}
+
 		/*
         if (Input.GetMouseButtonDown(0) && !gun.activeSelf)
         {

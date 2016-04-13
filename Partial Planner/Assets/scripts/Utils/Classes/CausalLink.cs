@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace POPL.Planner
 {
@@ -20,6 +21,24 @@ namespace POPL.Planner
 			act1.disp ();
 			Debug.Log (p.condition);
 			act2.disp();
+		}
+
+		public List<CausalLink> GetCLsByAction1(List<CausalLink> cls) {
+
+			List<CausalLink> searchResults = new List<CausalLink>();
+			foreach (CausalLink cl in cls)
+				if (cl.act1.Equals (act1))
+					searchResults.Add (cl);
+			return searchResults;
+		}
+
+		public List<CausalLink> GetCLsByAction2(List<CausalLink> cls) {
+
+			List<CausalLink> searchResults = new List<CausalLink>();
+			foreach (CausalLink cl in cls)
+				if (cl.act2.Equals (act1))
+					searchResults.Add (cl);
+			return searchResults;
 		}
 	}
 }

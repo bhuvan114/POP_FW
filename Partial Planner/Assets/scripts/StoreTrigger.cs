@@ -15,6 +15,7 @@ public class StoreTrigger : MonoBehaviour {
 
 	private EnterStore enterStore;
 	private BuyWeapon buyWeapon;
+	private BuyStore buyStore;
 	private BehaviorAgent behaviorAgent;
 	private Node root = null;
 	private Player3PController playerController;
@@ -54,7 +55,7 @@ public class StoreTrigger : MonoBehaviour {
 				playerController.gameObject.GetComponent<CharacterMecanim> ().ResetAnimation ();
 				root = null;
 
-				NarrativeState.recomputePlan = true;
+				//NarrativeState.recomputePlan = true;
                 //playerController.GetComponent<GunTrigger>().enabled = true;
 			}
 		}
@@ -68,6 +69,7 @@ public class StoreTrigger : MonoBehaviour {
 			playerController = other.GetComponent<Player3PController>();
 			enterStore = new EnterStore(store.GetComponent<SmartStore>(), other.GetComponent<SmartCharacter>());
 			buyWeapon = new BuyWeapon(store.GetComponent<SmartStore>(), other.GetComponent<SmartCharacter>());
+			buyStore = new BuyStore (store.GetComponent<SmartStore> (), other.GetComponent<SmartCharacter> ());
 			//openDoor = new OpenDoor(door.GetComponent<SmartDoor>(), other.GetComponent<SmartCharacter>());
 			//closeDoor = new CloseDoor(door.GetComponent<SmartDoor>(), other.GetComponent<SmartCharacter>());
 		}
@@ -91,7 +93,7 @@ public class StoreTrigger : MonoBehaviour {
 		if (isPlayerDetected)
 		{
 			GUI.color = Color.white;
-			GUI.Box(new Rect(20, 20, 300, 25), "Press 'F' to Buy Weapon");
+			GUI.Box(new Rect(20, 20, 300, 25), "Press 'F' to interact");
 		}
 	}
 
@@ -104,12 +106,29 @@ public class StoreTrigger : MonoBehaviour {
 		Time.timeScale = 1f;
 		playerController.hasGun = true;
 
-		root = new Sequence(enterStore.execute(), enterStore.UpdateState(), buyWeapon.execute(), buyWeapon.UpdateState());
+		root = new Sequence(enterStore.execute(), enterStore.UpdateStateForUI(), buyWeapon.execute(), buyWeapon.UpdateStateForUI());
 		behaviorAgent = new BehaviorAgent (root);
 		BehaviorManager.Instance.Register (behaviorAgent);
 		behaviorAgent.StartBehavior ();
 		playerController.isPlayerBusy = true;
 
 
+	}
+
+	public void BuyStore()
+	{
+		Debug.Log("BuyStore");
+		displayInteractionPannel = false;
+		StoreUIPanel.SetActive(false);
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
+		Time.timeScale = 1f;
+		playerController.hasKey = true;
+
+		root = new Sequence(enterStore.execute(), enterStore.UpdateStateForUI(), buyStore.execute(), buyStore.UpdateStateForUI());
+		behaviorAgent = new BehaviorAgent(root);
+		BehaviorManager.Instance.Register(behaviorAgent);
+		behaviorAgent.StartBehavior();
+		playerController.isPlayerBusy = true;
 	}
 }

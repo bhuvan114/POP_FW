@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using TreeSharpPlus;
 
 using POPL.Planner;
+//namespace POPL.Planner {
 
 public static class NarrativeStateManager {
 
@@ -30,27 +31,36 @@ public static class NarrativeStateManager {
 	private static List<Condition> conditions_NoPlayer =  new List<Condition>();
 	private static Dictionary<Affordance, List<Affordance>> constraints = new Dictionary<Affordance, List<Affordance>> ();
 	private static Dictionary<Affordance, int> affOrder = new Dictionary<Affordance, int> ();
-	private static string journalMessage;
+
 	public static bool terminated = false;
 	*/
+	
+public static string debugLog = "Yolo!!";
 
+	public static string planTimes = "";
+	public static string planLengths = "";
+	public static string planStatus = "";
+	private static string journalMessage;
 	static Affordance start, goal;
-	static bool isConsistent, isReplanRequired, hasPlan;
-	private static DynamicPlanner planner;
+	public static bool hasPlan = false;
+	public static bool isJournalUpdated = false;
+	public static bool first = true;
+	public static bool isPlanning = false;//isConsistent, isReplanRequired;
+	private static DynamicPlanner planner = new DynamicPlanner();
 
 	private static List<Condition> currentState =  new List<Condition>();
 	public static Dictionary<Affordance, List<Affordance>> constraints = new Dictionary<Affordance, List<Affordance>> ();
 
-	public static List<Affordance> actions = new List<Affordance>();
-	private static List<Affordance> executedActions = new List<Affordance>();
+	public static List<Affordance> affordances = new List<Affordance>();
+	//private static List<Affordance> executedActions = new List<Affordance>();
 
 	public static List<CausalLink> causalLinks = new List<CausalLink>();
 	private static List<CausalLink> runningCLs = new List<CausalLink>();
-	private static List<CausalLink> executedCLs = new List<CausalLink>();
+	//private static List<CausalLink> executedCLs = new List<CausalLink>();
 
 	public static Node root = null;
 
-	static void ResetStartState() {
+	static void SetStartState() {
 
 		start = new Affordance();
 		start.setStart ();
@@ -58,16 +68,11 @@ public static class NarrativeStateManager {
 			start.addEffects(cond);
 	}
 
-	static void ResetRunningCLs () {
+	static void ResetStartState() {
 
-		for(int i = 0; i < causalLinks.Count; i++) {
-			if (causalLinks[i].act1.Equals (start)) {
-
-				runningCLs.Add (causalLinks [i]);
-				causalLinks.RemoveAt (i);
-				i--;
-			}
-		}
+		start.removeEffects ();
+		foreach(Condition cond in currentState)
+			start.addEffects(cond);
 	}
 
 	static void AddConditionToNarrativeState(Condition cond) {
@@ -83,94 +88,99 @@ public static class NarrativeStateManager {
 		currentState.Add (cond);
 	}
 
-	static void UpdateNarrativeState(Affordance action) {
+	public static void InitiateNarrativeStateManager() {
 
-		foreach (Condition effect in action.getEffects())
-			AddConditionToNarrativeState (effect);
+	debugLog = "Initiate NSM!!";
+		AddConditionToNarrativeState(new Condition("Assasin", "InScene", true));
+		AddConditionToNarrativeState(new Condition("Assasin", "HandsFree", true));
+		AddConditionToNarrativeState(new Condition("StoreDoor", "IsOpen", false));
+		AddConditionToNarrativeState(new Condition("GunStore", "HasGun", true));
+		AddConditionToNarrativeState(new Condition("Assasin", "HasMoney", true));
+
+		AddConditionToNarrativeState(new Condition("Dealer", "InScene", true));
+		AddConditionToNarrativeState(new Condition("Dealer", "HandsFree", true));
+		AddConditionToNarrativeState(new Condition("Dealer", "HasMoney", true));
+
+		AddConditionToNarrativeState(new Condition("Player", "InScene", true));
+		AddConditionToNarrativeState(new Condition("Player", "HandsFree", true));
+		AddConditionToNarrativeState(new Condition("Player", "HasMoney", true));
+
+		SetStartState ();
+
+		goal = new Affordance ();
+		goal.setGoal ();
+		//goal.addPrecondition (new Condition("Assasin", "Gun", "IsDrawn", true));
+		goal.addPrecondition (new Condition("Assasin", "HasGun", true));
+
+		isPlanning = true;
+		hasPlan = false;
+		//List<POPL.Planner.Tuple<Condition, Affordance>> inconsistencies = new List<POPL.Planner.Tuple<Condition, Affordance>> ();
+		//foreach (Condition cond in goal.getPreconditions())
+		//	inconsistencies.Add (new POPL.Planner.Tuple<Condition, Affordance> (cond, goal));
+
+		planner = new DynamicPlanner ();
+	debugLog = "new planner!!";
+		if (planner.ComputePlan()) {
+			ConstructBehaviourTree ();
+			hasPlan = true;
+		}
+		isPlanning = false;
 	}
 
-	static void UpdateAffordanceStatus(Affordance action) {
+	static void UpdateCausalLinks(Affordance action) {
 
-		actions.Remove (action);
-		executedActions.Add (action);
-	}
-
-	static void UpdateCausalLinksStatus(Affordance action) {
-
+		// if action is act1, set running; if action is act2 delete causal link
 		for(int i = 0; i < causalLinks.Count; i++) {
 			if (causalLinks[i].act1.Equals (action)) {
-
+				causalLinks [i].disp ();
 				runningCLs.Add (causalLinks [i]);
 				causalLinks.RemoveAt (i);
 				i--;
-			}
+			} 
 		}
 
 		for(int i = 0; i < runningCLs.Count; i++) {
 			if (runningCLs[i].act2.Equals (action)) {
-
-				executedCLs.Add (runningCLs [i]);
+				
 				runningCLs.RemoveAt (i);
 				i--;
 			}
 		}
 	}
 
-	static void RemoveActionFromActionsAndOrderingConstraints(Affordance action) {
+	static void RemoveAffordanceAndConstraints(Affordance act) {
 
-		if (actions.Contains (action))
-			actions.Remove (action);
+		if (affordances.Contains (act))
+			affordances.Remove (act);
 
-		if (constraints.ContainsKey (action))
-			constraints.Remove (action);
+		if (constraints.ContainsKey (act))
+			constraints.Remove (act);
 
 		foreach (Affordance key in constraints.Keys) {
-			if (constraints [key].Contains (action))
-				constraints [key].Remove (action);
+			if (constraints [key].Contains (act))
+				constraints [key].Remove (act);
 		}
 	}
 
 	static void PropogateConsistency(List<Affordance> affs) {
-
+		
 		List<Affordance> overConsistentActions = new List<Affordance> ();
-		foreach(Affordance act in affs) {
-			int count = 0;
-			for (int i = 0; i < causalLinks.Count (); i++) {
+		foreach (Affordance act in affs) {
+			//List<CausalLink> ocRunningCLs = HelperFunctions.GetCLsByAction1 (runningCLs, act);
+			if (HelperFunctions.GetCLsByAction1 (causalLinks, act).Count () == 0) {
+
+				RemoveAffordanceAndConstraints (act);
+				List<CausalLink> ocRunningCLs = HelperFunctions.GetCLsByAction2 (runningCLs, act);
+				foreach (CausalLink cl in ocRunningCLs)
+					runningCLs.Remove (cl);
 				
-				if (causalLinks [i].act1.Equals (act))
-					count++;
-			}
+				List<CausalLink> ocCLs = HelperFunctions.GetCLsByAction2 (causalLinks, act);
+				foreach (CausalLink cl in ocCLs) {
 
-			/*
-			if (count == 0) {
-				for (int i = 0; i < runningCLs.Count (); i++) {
-
-					if (causalLinks [i].act2.Equals (act))
-						count++;
-				}
-			}
-*/
-			//If there are no causal links dependent on act
-			if (count == 0) {
-				for (int i = 0; i < causalLinks.Count (); i++) {
-
-					if (causalLinks [i].act2.Equals (act)) {
-						overConsistentActions.Add (causalLinks [i].act1);
-						causalLinks.RemoveAt (i);
-						i--;
-					}
+					causalLinks.Remove (cl);
+					overConsistentActions.Add (cl.act1);
 				}
 
-				for (int i = 0; i < runningCLs.Count (); i++) {
-
-					if (runningCLs [i].act2.Equals (act)) {
-						//overConsistentActions.Add (causalLinks [i].act1);
-						runningCLs.RemoveAt (i);
-						i--;
-					}
-				}
-
-				RemoveActionFromActionsAndOrderingConstraints(act);
 			}
 		}
 
@@ -178,25 +188,19 @@ public static class NarrativeStateManager {
 			PropogateConsistency (overConsistentActions);
 	}
 
-	static void CheckInconsistencies(Affordance action) {
+	static bool IsActionInconsistent (Affordance action, out List<POPL.Planner.Tuple<Condition, Affordance>> inconsistencies) {
 
-		List<POPL.Planner.Tuple<Condition, Affordance>> inconsistencies = new List<POPL.Planner.Tuple<Condition, Affordance>> ();
+		bool isInconsistent = false;
+		inconsistencies = new List<POPL.Planner.Tuple<Condition, Affordance>> ();
 		List<Affordance> overConsistentActions = new List<Affordance> ();
-		isConsistent = true;
-		isReplanRequired = false;
-
-		//Check for OverConsistency
 		foreach (Condition effect in action.getEffects()) {
 			for (int i = 0; i < causalLinks.Count (); i++) {
 				if (causalLinks [i].p.Equals (effect)) {
-
-					//causalLinks.Add (new CausalLink(start, causalLinks [i].p, causalLinks [i].act2));
-					//planner.AddOrderingConstraint (start, causalLinks [i].act2);
 					inconsistencies.Add (new POPL.Planner.Tuple<Condition, Affordance> (causalLinks [i].p, causalLinks [i].act2));
 					overConsistentActions.Add (causalLinks [i].act1);
 					causalLinks.RemoveAt (i);
 					i--;
-					isConsistent = false;
+					isInconsistent = true;
 				}
 			}
 		}
@@ -204,47 +208,102 @@ public static class NarrativeStateManager {
 		if (overConsistentActions.Count() > 0)
 			PropogateConsistency (overConsistentActions);
 
-		//Check for UnderConsistency
 		foreach (Condition effect in action.getEffects()) {
-			for (int i = 0; i < runningCLs.Count (); i++) {
-
-				if (runningCLs [i].p.isNegation (effect)) {
-					inconsistencies.Add (new POPL.Planner.Tuple<Condition, Affordance> (runningCLs [i].p, runningCLs [i].act2));
-					runningCLs.RemoveAt (i);
+			foreach (CausalLink cl in runningCLs) {
+				if (cl.p.isNegation (effect)) {
+					//cl.disp ();
+					isInconsistent = true;
 				}
 			}
 		}
+		return isInconsistent;
+	}
 
-		if (inconsistencies.Count () > 0) {
+	public static void UpdateNarrativeStateForUserAction(Affordance action) {
+
+		Debug.LogError ("UpdateNarrativeStateForUserAction!!");
+		//Add effects to Narrative State
+		foreach (Condition effect in action.getEffects())
+			AddConditionToNarrativeState (effect);
+
+		List<POPL.Planner.Tuple<Condition, Affordance>> inconsistencies;
+		if (IsActionInconsistent (action, out inconsistencies)) {
+			hasPlan = false;
+			isPlanning = true;
+			//inconsistencies = new List<POPL.Planner.Tuple<Condition, Affordance>> ();
 			foreach (CausalLink cl in runningCLs)
 				inconsistencies.Add (new POPL.Planner.Tuple<Condition, Affordance> (cl.p, cl.act2));
-			runningCLs = new List<CausalLink> ();
-			isConsistent = false;
-			isReplanRequired = true;
-			root = null;
-		}
 
-		if (isReplanRequired) {
-			if (planner.AddToAgenda (inconsistencies)) {
+			Debug.LogWarning ("incons!!");
+			foreach (POPL.Planner.Tuple<Condition, Affordance> incon in inconsistencies)
+				incon.First.disp ();
+			disp ();
+			//Debug.LogWarning ("currstate");
+			//SetStartState();	
+
+			runningCLs = new List<CausalLink> ();
+			//SetStartState ();
+			ResetStartState();
+			System.Diagnostics.Stopwatch swatch = new System.Diagnostics.Stopwatch ();
+			swatch.Start ();
+			if (planner.ComputePlan (inconsistencies)) {
+				swatch.Stop ();
+				planTimes = planTimes + "," + swatch.ElapsedMilliseconds.ToString ();
+				planLengths = planLengths + "," + affordances.Count ().ToString ();
+				ConstructBehaviourTree ();
 				hasPlan = true;
-				ResetRunningCLs ();
 			} else {
-				hasPlan = false;
+				swatch.Stop ();
+				planTimes = planTimes + "," + swatch.ElapsedMilliseconds.ToString ();
+				planLengths = planLengths + "," + "0";
 			}
+			isPlanning = false;
 		}
 	}
 
+	public static void UpdateNarrativeState(Affordance action) {
+
+		//Add effects to Narrative State
+		foreach (Condition effect in action.getEffects())
+			AddConditionToNarrativeState (effect);
+
+		//if (affordances.Contains (action))
+			Debug.LogError ("Removing action");
+		action.disp ();
+		//Remove affordance from narrative
+		affordances.Remove(action);
+
+		foreach (Affordance aff in affordances)
+			aff.disp ();
+		//Remove Affordance from constraints
+		if (constraints.ContainsKey (action))
+			constraints.Remove (action);
+
+
+		//Update Causal Links
+		Debug.LogWarning("UpdateCausalLinks");
+		UpdateCausalLinks(action);
+	}
+
+	// Add node to set start as executed in BT
 	public static void ConstructBehaviourTree () {
 
+		foreach (Affordance aff in affordances)
+			aff.disp ();
+
+		planner.ShowOrderingConstraints ();
+
 		Dictionary<Affordance, int> affOrder = new Dictionary<Affordance, int> ();
-		int indx = actions.Count;
-		foreach (Affordance act in actions) {
+		int indx = affordances.Count;
+		foreach (Affordance act in affordances) {
 			if(act.isStart()) {
 				affOrder.Add(act, 1);
 			} else {
 				affOrder.Add(act, indx);
 			}
 		}
+
+
 
 		indx = 1;
 		//IEnumerable<Affordance> affs = (from aff in affOrder where aff.Value == indx select aff.Key);
@@ -265,16 +324,20 @@ public static class NarrativeStateManager {
 
 			indx = indx + 1;
 			affs = (from aff in affOrder where aff.Value == indx select aff.Key);
+			//foreach (Affordance af in affs)
+			//	af.disp ();
 		}
-		/*
+
 		foreach(Affordance act in affOrder.Keys) {
 
 			act.disp();
 			Debug.LogWarning(affOrder[act]);
-		}*/
+		}
+
 		List<Node> affSTs = new List<Node>();
-		//journalMessage = "- Day started\n";
-		Debug.Log ("Indx = " + indx);
+		affSTs.Add (start.UpdateState());
+		journalMessage = "- Day started\n";
+		//Debug.Log ("Indx = " + indx);
 		for (int i=1; i<indx; i++) {
 			//Debug.Log ("i = " + i);
 			//affs = (from aff in affOrder where aff.Value == indx select aff.Key);
@@ -285,77 +348,47 @@ public static class NarrativeStateManager {
 					//act.disp();
 					affSTs.Add(new Sequence(act.GetSubTree(), act.UpdateState ()));
 
-					//journalMessage = journalMessage + "- " + act.name + "\n";
+					journalMessage = journalMessage + "- " + act.name + "\n";
 				}
 			}
 		}
 		root = new Sequence(affSTs.ToArray());
+		isJournalUpdated = true;
+		//Debug.Log (journalMessage);
 		//UpdateJournal (journalMessage);
 	}
 
-	static void InitiateNarrativeStateManager() {
-
-		AddConditionToNarrativeState(new Condition("Assasin", "InScene", true));
-		AddConditionToNarrativeState(new Condition("Assasin", "HandsFree", true));
-		AddConditionToNarrativeState(new Condition("StoreDoor", "IsOpen", false));
-		AddConditionToNarrativeState(new Condition("GunStore", "HasGun", true));
-		AddConditionToNarrativeState(new Condition("Assasin", "HasMoney", true));
-
-		AddConditionToNarrativeState(new Condition("Dealer", "InScene", true));
-		AddConditionToNarrativeState(new Condition("Dealer", "HandsFree", true));
-		AddConditionToNarrativeState(new Condition("Dealer", "HasMoney", true));
-
-		AddConditionToNarrativeState(new Condition("Player", "InScene", true));
-		AddConditionToNarrativeState(new Condition("Player", "HandsFree", true));
-		AddConditionToNarrativeState(new Condition("Player", "HasMoney", true));
-
-		ResetStartState ();
-
-		Affordance goal = new Affordance ();
-		goal.setGoal ();
-		goal.addPrecondition (new Condition("Assasin", "Gun", "IsDrawn", true));
-
-		hasPlan = false;
-		List<POPL.Planner.Tuple<Condition, Affordance>> inconsistencies = new List<POPL.Planner.Tuple<Condition, Affordance>> ();
-		foreach (Condition cond in goal.getPreconditions())
-			inconsistencies.Add (new POPL.Planner.Tuple<Condition, Affordance> (cond, goal));
-
-		planner = new DynamicPlanner ();
-
-		if (planner.AddToAgenda (inconsistencies)) {
-			hasPlan = true;
-			ResetRunningCLs ();
-		}
+	public static Affordance GetStartState(){
+		/*
+		Affordance aff = new Affordance();
+		aff.setStart ();
+		foreach(Condition cond in currentState)
+			aff.addEffects(cond);
+		return aff;*/
+		return start;
 	}
 
-	public static void UpdatePlanSpace(Affordance action) {
-
-		UpdateNarrativeState (action);
-		UpdateAffordanceStatus (action);
-		UpdateCausalLinksStatus (action);
-	}
-
-	public static void UpdatePlanSpaceForUserAction (Affordance action) {
-
-		UpdateNarrativeState (action);
-		CheckInconsistencies (action);
-		if (isReplanRequired && hasPlan) {
-			ConstructBehaviourTree ();
-		}
-	}
-
-	public static bool IsPlanExists () {
+	public static Affordance GetGoalState(){
 		
-		return hasPlan;
+		return goal;
 	}
 
-	public static bool IsPlanRecomputed () {
+	public static void UpdateJournal() {
 
-		return isReplanRequired;
+		Text journal = GameObject.Find ("JournalText").GetComponent<Text>();
+		journal.text = journalMessage;
+		isJournalUpdated = false;
+		first = false;
 	}
 
-	public static void ResetReplan () {
+	public static void disp () {
 
-		isReplanRequired = false;
+		Debug.LogWarning ("Affordances - ");
+		foreach (Affordance aff in affordances)
+			aff.disp ();
+		Debug.LogWarning ("Current state - ");
+		foreach (Condition con in currentState)
+			con.disp ();
 	}
 }
+//}

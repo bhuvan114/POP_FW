@@ -21,7 +21,7 @@ public class GunController : MonoBehaviour {
 		if (isHolding) {
 			transform.position = holder.transform.position;
 			if (isDrawn) 
-				transform.eulerAngles = new Vector3(player.transform.rotation.x, player.transform.rotation.y, player.transform.rotation.z);
+				transform.eulerAngles = new Vector3(player.transform.rotation.x, 180 - player.transform.rotation.y, player.transform.rotation.z);
 			else
 				transform.rotation = holder.transform.rotation;
 		}

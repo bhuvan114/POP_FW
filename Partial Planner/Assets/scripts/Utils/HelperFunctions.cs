@@ -11,22 +11,27 @@ namespace POPL.Planner
 
 		public static void initiatePlanSpace() {
 
-			populateCharactersInScene ();
+			//populateCharactersInScene ();
 			populateAllPossibleActions ();
 		}
 
-		public static void initiatePlanSpace_v2() {
+		public static void initiatePlanSpace_v2(GameObject[] smartObjects) {
 			
-			populateCharactersInScene ();
+			populateCharactersInScene (smartObjects);
+			NarrativeStateManager.debugLog = "Before populateAllActionsMap!!";
 			populateAllActionsMap ();
+			NarrativeStateManager.debugLog = "Before populateAllActionsMap!!";
 			updateActionRelations ();
 		}
 
-		static void populateCharactersInScene () {
+		static void populateCharactersInScene (GameObject[] smartObjects) {
 
+			NarrativeStateManager.debugLog = "populateCharactersInScene 1";
 			IEnumerable<System.Type> characterTypes = System.Reflection.Assembly.GetExecutingAssembly ().GetTypes ()
 				.Where (t => t.BaseType != null && t.BaseType == typeof(POPL.Planner.SmartObject));
-			GameObject[] smartObjects = GameObject.FindGameObjectsWithTag ("SmartObject");
+			NarrativeStateManager.debugLog = "populateCharactersInScene 1.5";
+			//GameObject[] smartObjects = GameObject.FindGameObjectsWithTag ("SmartObject");
+			NarrativeStateManager.debugLog = "populateCharactersInScene 2";
 			foreach (GameObject smartObject in smartObjects) {
 				foreach (System.Type charType in characterTypes) {
 
@@ -40,6 +45,7 @@ namespace POPL.Planner
 					}
 				}
 			}
+			NarrativeStateManager.debugLog = "populateCharactersInScene 3";
 		}
 
 		static void addAffordances(List<System.Type> affordances) {
@@ -197,6 +203,24 @@ namespace POPL.Planner
 			Debug.LogWarning("No Object " + name + " found in " + parent.name);
 			return null;
 
+		}
+
+		public static List<CausalLink> GetCLsByAction1(List<CausalLink> cls, Affordance act) {
+
+			List<CausalLink> searchResults = new List<CausalLink>();
+			foreach (CausalLink cl in cls)
+				if (cl.act1.Equals (act))
+					searchResults.Add (cl);
+			return searchResults;
+		}
+
+		public static List<CausalLink> GetCLsByAction2(List<CausalLink> cls, Affordance act) {
+
+			List<CausalLink> searchResults = new List<CausalLink>();
+			foreach (CausalLink cl in cls)
+				if (cl.act2.Equals (act))
+					searchResults.Add (cl);
+			return searchResults;
 		}
 	}
 }

@@ -10,18 +10,20 @@ public class main : MonoBehaviour {
     public DataCollection userMetrics;
     private bool hasPlan;
 	private BehaviorAgent behaviorAgent;
-	private bool journalUpdated;
 
 	// Use this for initialization
 	void Start () {
 
-		HelperFunctions.initiatePlanSpace_v2 ();
+		GameObject[] smartObjects = GameObject.FindGameObjectsWithTag ("SmartObject");
+		//NarrativeStateManager.debugLog = "Before calling helper!!";
+		HelperFunctions.initiatePlanSpace_v2 (smartObjects);
 		hasPlan = false;
 
 		NarrativeState.AddCondition (new Condition("Assasin", "InScene", true));
 		NarrativeState.AddCondition(new Condition("Assasin", "HandsFree", true));
 		NarrativeState.AddCondition(new Condition("StoreDoor", "IsOpen", false));
 		NarrativeState.AddCondition(new Condition("GunStore", "HasGun", true));
+		NarrativeState.AddCondition(new Condition("GunStore", "HasKey", true));
 		NarrativeState.AddCondition(new Condition("Assasin", "HasMoney", true));
 
 		NarrativeState.AddCondition (new Condition("Dealer", "InScene", true));
@@ -84,9 +86,9 @@ public class main : MonoBehaviour {
 		
 		swatch.Start ();
 		if (!planner.computePlan (start, goal)) {
-            userMetrics.setIsRunning(false);
+            //userMetrics.setIsRunning(false);
 			hasPlan = false;
-			Debug.Log("hasPlan false");
+			//Debug.Log("hasPlan false");
 			ObjectiveUIPanel.SetActive(true);
 			NarrativeState.terminated = true;
 			Cursor.visible = true;
@@ -100,7 +102,6 @@ public class main : MonoBehaviour {
 			NarrativeState.SetOrderingConstraints(planner.getConstarints());
 			//NarrativeState.GenerateNarrative();
 			NarrativeState.GenerateNarrative_V2();
-			journalUpdated = true;
 			Time.timeScale = 1f;
 		}
 		swatch.Stop ();
@@ -134,9 +135,6 @@ public class main : MonoBehaviour {
 			NarrativeState.recomputePlan = false;
 			this.computePlan();
 		}
-
-		if (Input.GetKeyDown (KeyCode.J))
-			journalUpdated = false;
 	}
 
 	public Node TeriminatePlan () {
@@ -146,21 +144,11 @@ public class main : MonoBehaviour {
 	}	
 	
 	public void TerimateNarrative() {
-        userMetrics.setIsRunning(false);
+        //userMetrics.setIsRunning(false);
 		objectiveFailure.SetActive (true);
 		Cursor.visible = true;
 		Cursor.lockState = CursorLockMode.None;
 		Time.timeScale = 0f;
-	}
-
-	void OnGUI ()
-	{
-		if (journalUpdated)
-		{
-			GUI.color = Color.white;
-
-			GUI.Box(new Rect(40, Screen.height-30, 250, 25), "Journal updated. Press 'J' to view!!");
-		}
 	}
 
 }
